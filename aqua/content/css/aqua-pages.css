@@ -1,0 +1,42 @@
+/* Aqua colours for the engine's own pages: saved passwords and cards, its settings, add-ons, downloads,
+   profiles. Applies only to those addresses, never to websites. */
+@-moz-document url-prefix("about:logins"), url-prefix("about:preferences"), url-prefix("about:settings"), url-prefix("about:addons"), url-prefix("about:downloads"), url-prefix("about:profiles"), url-prefix("about:protections"), url-prefix("about:certerror"), url-prefix("about:neterror"), url-prefix("about:blocked"), url-prefix("about:privatebrowsing") {
+  :root {
+    --in-content-page-background: #070e1c !important;
+    --in-content-page-color: #e8f3ff !important;
+    --in-content-text-color: #e8f3ff !important;
+    --in-content-deemphasized-text: #8fa9cc !important;
+    --in-content-box-background: #0d1a31 !important;
+    --in-content-box-background-hover: #13264a !important;
+    --in-content-box-border-color: rgba(147, 205, 255, .22) !important;
+    --in-content-box-info-background: #0d1a31 !important;
+    --in-content-item-hover: rgba(120, 190, 255, .14) !important;
+    --in-content-item-selected: rgba(120, 190, 255, .24) !important;
+    --in-content-item-selected-text: #ffffff !important;
+    --in-content-border-color: rgba(147, 205, 255, .22) !important;
+    --in-content-border-hover: rgba(147, 205, 255, .4) !important;
+    --in-content-primary-button-background: rgba(127, 227, 255, .32) !important;
+    --in-content-primary-button-background-hover: rgba(127, 227, 255, .45) !important;
+    --in-content-primary-button-background-active: rgba(127, 227, 255, .55) !important;
+    --in-content-primary-button-text-color: #f2fdff !important;
+    --in-content-button-background: rgba(120, 190, 255, .14) !important;
+    --in-content-button-background-hover: rgba(120, 190, 255, .22) !important;
+    --in-content-focus-outline-color: #7fe3ff !important;
+    --in-content-link-color: #7fe3ff !important;
+    --in-content-link-color-hover: #c8f6ff !important;
+    --color-accent-primary: #7fe3ff !important;
+    --color-accent-primary-hover: #b6f1ff !important;
+    --color-accent-primary-active: #d8f8ff !important;
+    --background-color-canvas: #070e1c !important;
+    --background-color-box: #0d1a31 !important;
+    --text-color: #e8f3ff !important;
+    --border-color: rgba(147, 205, 255, .22) !important;
+    --focus-outline-color: #7fe3ff !important;
+    color-scheme: dark !important;
+  }
+  body, html {
+    background:
+      radial-gradient(1100px 600px at 80% -10%, rgba(38, 110, 230, .22), transparent 70%),
+      linear-gradient(180deg, #0c1a36, #070e1c 700px) fixed !important;
+  }
+}

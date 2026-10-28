@@ -1,0 +1,7 @@
+*.dmg
+*.tar.xz
+__pycache__/
+dist-aqua.ico
+dist/
+shots/
+work/

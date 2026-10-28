@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src chrome:; script-src chrome:; style-src chrome: 'unsafe-inline'; font-src chrome:; img-src chrome: data: page-icon: https:; connect-src https:; object-src 'none'; frame-src 'none'; base-uri 'none'">
+<title>Aqua settings</title>
+<link rel="icon" href="chrome://aqua/content/img/gear.svg">
+<link rel="stylesheet" href="chrome://aqua/content/css/aqua-ui.css">
+<style>
+  html, body { overflow: auto; height: auto; min-height: 100%; user-select: text; }
+  body { background-attachment: fixed; padding: 2rem 1.25rem 5rem; }
+  #main { max-width: 52rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.1rem; }
+  .card { border-radius: var(--r-xl); padding: 1.3rem 1.5rem 1.4rem; display: flex; flex-direction: column; gap: .85rem; scroll-margin-top: 1rem; }
+  .card > h2 { margin: 0 0 .2rem; font-family: var(--font-label); font-weight: 400; font-size: .8125rem; letter-spacing: .24em; text-transform: uppercase; }
+  .card > p { margin: 0; color: var(--ink-dim); line-height: 1.45; }
+  .welcome .lcd-hero .big { font-size: 3rem; }
+  .stack { display: flex; flex-direction: column; gap: .7rem; }
+  .set-nav { padding: 0; position: sticky; top: .5rem; z-index: 5; padding: .5rem; border-radius: var(--r-l); background: hsl(calc(var(--h) + 7) 58% 8% / .85); backdrop-filter: blur(12px); border: 1px solid var(--edge-soft); }
+  h1.title { margin: 0 0 .5rem; font-family: var(--font-label); font-weight: 400; font-size: 1.1rem; letter-spacing: .28em; text-transform: uppercase; }
+</style>
+<style id="user-css"></style>
+</head>
+<body class="tabs-top">
+<div id="main"></div>
+<div id="overlays"></div>
+<script src="chrome://aqua/content/js/aqua-api.js"></script>
+<script src="chrome://aqua/content/js/util.js"></script>
+<script src="chrome://aqua/content/js/settings.js"></script>
+</body>
+</html>

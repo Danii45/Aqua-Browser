@@ -1,0 +1,227 @@
+#!/usr/bin/env python3
+"""Turns an official Firefox ESR build into Aqua Browser.
+
+    python3 build/apply.py linux path/to/firefox            # the unpacked Linux tarball folder
+    python3 build/apply.py mac   "path/to/Aqua Browser.app" # Firefox.app, copied and renamed
+    python3 build/apply.py windows path/to/core             # the unpacked Windows installer's core folder
+
+What it does:
+  * adds Aqua (aqua.cfg start-up hook, the chrome://aqua/ package, default policies);
+  * renames the app to Aqua Browser and swaps in Aqua's icons (Mozilla's trademark policy doesn't allow
+    changed builds to be called Firefox);
+  * gives it its own app name, so its profiles live apart from any real Firefox on the computer.
+"""
+import configparser, io, os, plistlib, re, shutil, subprocess, sys, tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+VERSION = (ROOT / "VERSION").read_text().strip()
+ICON = ROOT / "branding" / "icon-1024.png"
+
+try:
+    from PIL import Image
+except ImportError:
+    sys.exit("needs Pillow: pip install pillow")
+
+
+def png(size):
+    im = Image.open(ICON).convert("RGBA").resize((size, size), Image.LANCZOS)
+    b = io.BytesIO(); im.save(b, "PNG"); return b.getvalue()
+
+
+def copy_tree(src, dst):
+    if dst.exists():
+        shutil.rmtree(dst)
+    shutil.copytree(src, dst)
+
+
+def add_aqua(res: Path):
+    """res is the engine's resource folder (GreD): the Linux 'firefox' folder, or Contents/Resources on Mac."""
+    shutil.copy(ROOT / "engine" / "aqua.cfg", res / "aqua.cfg")
+    (res / "defaults" / "pref").mkdir(parents=True, exist_ok=True)
+    auto = (ROOT / "engine" / "defaults" / "pref" / "aqua-autoconfig.js").read_text()
+    auto += f'pref("aqua.version", "{VERSION}");\n'
+    (res / "defaults" / "pref" / "aqua-autoconfig.js").write_text(auto)
+    (res / "distribution").mkdir(exist_ok=True)
+    shutil.copy(ROOT / "engine" / "distribution" / "policies.json", res / "distribution" / "policies.json")
+    copy_tree(ROOT / "aqua", res / "aqua")
+
+
+def edit_application_ini(path: Path):
+    cp = configparser.RawConfigParser()
+    cp.optionxform = str
+    cp.read(path)
+    cp.set("App", "Vendor", "Aqua")
+    cp.set("App", "Name", "AquaBrowser")
+    cp.set("App", "RemotingName", "aqua-browser")
+    if cp.has_section("Crash Reporter"):
+        cp.set("Crash Reporter", "Enabled", "0")
+    with open(path, "w") as f:
+        cp.write(f, space_around_delimiters=False)
+    return cp.get("App", "Version", fallback="?")
+
+
+BRAND_FTL = {
+    "-brand-shorter-name": "Aqua",
+    "-brand-short-name": "Aqua Browser",
+    "-brand-shortcut-name": "Aqua Browser",
+    "-brand-full-name": "Aqua Browser",
+    "-brand-product-name": "Aqua Browser",
+    "-vendor-short-name": "Aqua",
+}
+TRADEMARK = "Aqua Browser is built on Mozilla’s open-source browser engine. Firefox is a trademark of the Mozilla Foundation; Aqua Browser is not made or endorsed by Mozilla."
+
+
+def unpack_jar(jar: Path, dest: Path):
+    # Mozilla's jars are zip files with the directory at the front; unzip and 7-Zip both cope.
+    if shutil.which("unzip"):
+        r = subprocess.run(["unzip", "-q", "-o", str(jar), "-d", str(dest)])
+        if r.returncode <= 1:  # 1 = warnings only
+            return
+    if shutil.which("7z"):
+        subprocess.run(["7z", "x", "-y", f"-o{dest}", str(jar)], check=True, stdout=subprocess.DEVNULL)
+        return
+    sys.exit(f"could not unpack {jar}: needs unzip or 7z")
+
+
+def pack_jar(src: Path, jar: Path):
+    if shutil.which("zip"):
+        subprocess.run(["zip", "-q", "-r", "-9", "-X", "-D", str(jar), "."], cwd=src, check=True)
+        return
+    import zipfile
+    with zipfile.ZipFile(jar, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        for f in sorted(src.rglob("*")):
+            if f.is_file():
+                z.write(f, f.relative_to(src).as_posix())
+
+
+def rebrand_omni(omni: Path):
+    """Swap the names and logos inside browser/omni.ja."""
+    tmp = Path(tempfile.mkdtemp())
+    unpack_jar(omni, tmp)
+    changed = 0
+    for ftl in tmp.glob("localization/*/branding/brand.ftl"):
+        lines = []
+        for line in ftl.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"^(-[\w-]+)\s*=", line)
+            if m and m.group(1) in BRAND_FTL:
+                line = f"{m.group(1)} = {BRAND_FTL[m.group(1)]}"
+            elif line.startswith("trademarkInfo"):
+                line = f"trademarkInfo = {TRADEMARK}"
+            lines.append(line)
+        ftl.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        changed += 1
+    for props in tmp.glob("chrome/*/locale/branding/brand.properties"):
+        out = []
+        for line in props.read_text(encoding="utf-8").splitlines():
+            k = line.split("=", 1)[0].strip()
+            if k == "brandShorterName": line = "brandShorterName=Aqua"
+            elif k in ("brandShortName", "brandFullName", "brandProductName"): line = f"{k}=Aqua Browser"
+            elif k == "vendorShortName": line = "vendorShortName=Aqua"
+            out.append(line)
+        props.write_text("\n".join(out) + "\n", encoding="utf-8")
+        changed += 1
+    brand = tmp / "chrome" / "browser" / "content" / "branding"
+    if brand.exists():
+        for f in brand.iterdir():
+            if f.suffix == ".png":
+                try:
+                    w, h = Image.open(f).size
+                except Exception:
+                    continue
+                im = Image.open(ICON).convert("RGBA").resize((min(w, h), min(w, h)), Image.LANCZOS)
+                canvas = Image.new("RGBA", (w, h), (0, 0, 0, 0)); canvas.paste(im, ((w - im.width) // 2, (h - im.height) // 2))
+                canvas.save(f, "PNG"); changed += 1
+            elif f.suffix == ".svg" and "wordmark" in f.name:
+                f.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 172 42"><text x="0" y="30" font-family="sans-serif" font-size="26" font-weight="600" fill="context-fill">Aqua Browser</text></svg>')
+                changed += 1
+            elif f.suffix == ".svg" and "logo" in f.name:
+                f.write_text((ROOT / "branding" / "icon.svg").read_text()); changed += 1
+    omni.unlink()
+    pack_jar(tmp, omni)
+    shutil.rmtree(tmp, ignore_errors=True)
+    print(f"  rebranded {changed} files in {omni.name}")
+
+
+def linux(app: Path):
+    add_aqua(app)
+    ver = edit_application_ini(app / "application.ini")
+    rebrand_omni(app / "browser" / "omni.ja")
+    icons = app / "browser" / "chrome" / "icons" / "default"
+    if icons.exists():
+        for f in icons.glob("default*.png"):
+            size = int(re.sub(r"\D", "", f.stem) or 128)
+            f.write_bytes(png(size))
+    print(f"Aqua Browser {VERSION} on engine {ver} (Linux) ready in {app}")
+
+
+def mac(app: Path):
+    res = app / "Contents" / "Resources"
+    add_aqua(res)
+    ver = edit_application_ini(res / "application.ini")
+    rebrand_omni(res / "browser" / "omni.ja")
+    plist_path = app / "Contents" / "Info.plist"
+    with open(plist_path, "rb") as f:
+        pl = plistlib.load(f)
+    pl.update({
+        "CFBundleName": "Aqua Browser",
+        "CFBundleDisplayName": "Aqua Browser",
+        "CFBundleIdentifier": "app.aquabrowser.browser2",
+        "CFBundleGetInfoString": f"Aqua Browser {VERSION}",
+        "CFBundleShortVersionString": VERSION,
+    })
+    with open(plist_path, "wb") as f:
+        plistlib.dump(pl, f)
+    # Icon: build an .icns with Apple's iconutil (only on a Mac) and drop it in over Firefox's.
+    iconset = Path(tempfile.mkdtemp()) / "aqua.iconset"
+    iconset.mkdir()
+    for s in (16, 32, 128, 256, 512):
+        (iconset / f"icon_{s}x{s}.png").write_bytes(png(s))
+        (iconset / f"icon_{s}x{s}@2x.png").write_bytes(png(s * 2))
+    icon_name = pl.get("CFBundleIconFile", "firefox.icns")
+    if not icon_name.endswith(".icns"):
+        icon_name += ".icns"
+    if shutil.which("iconutil"):
+        subprocess.run(["iconutil", "-c", "icns", str(iconset), "-o", str(res / icon_name)], check=True)
+    else:
+        print("  (no iconutil here: keeping the engine's icon)")
+    print(f"Aqua Browser {VERSION} on engine {ver} (Mac) ready in {app}")
+
+
+def windows(app: Path):
+    add_aqua(app)
+    ver = edit_application_ini(app / "application.ini")
+    rebrand_omni(app / "browser" / "omni.ja")
+    # Mozilla's updater, maintenance service and default-browser agent would update/report as Firefox; Aqua
+    # updates through its own releases instead (updates are also switched off in policies.json).
+    for name in ("updater.exe", "updater.ini", "update-settings.ini", "maintenanceservice.exe",
+                 "maintenanceservice_installer.exe", "default-browser-agent.exe"):
+        p = app / name
+        if p.exists():
+            p.unlink()
+    icons = app / "browser" / "chrome" / "icons" / "default"
+    if icons.exists():
+        for f in icons.glob("default*.png"):
+            size = int(re.sub(r"\D", "", f.stem) or 128)
+            f.write_bytes(png(size))
+    # Start-menu tiles.
+    ve = app / "browser" / "VisualElements"
+    if ve.exists():
+        for f in ve.glob("*.png"):
+            try:
+                w, h = Image.open(f).size
+            except Exception:
+                continue
+            im = Image.open(ICON).convert("RGBA").resize((min(w, h), min(w, h)), Image.LANCZOS)
+            canvas = Image.new("RGBA", (w, h), (0, 0, 0, 0)); canvas.paste(im, ((w - im.width) // 2, (h - im.height) // 2))
+            canvas.save(f, "PNG")
+    # The .ico that build/windows puts on firefox.exe (with rcedit) and the installer.
+    Image.open(ICON).convert("RGBA").save(ROOT / "dist-aqua.ico", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
+    print(f"Aqua Browser {VERSION} on engine {ver} (Windows) ready in {app}")
+
+
+if __name__ == "__main__":
+    modes = {"linux": linux, "mac": mac, "windows": windows}
+    if len(sys.argv) != 3 or sys.argv[1] not in modes:
+        sys.exit(__doc__)
+    modes[sys.argv[1]](Path(sys.argv[2]))

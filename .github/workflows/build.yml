@@ -1,0 +1,127 @@
+name: Build Aqua Browser
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Publish these builds as a GitHub release (yes/no)"
+        default: "no"
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb imagemagick unzip zip python3-pil libgtk-3-0t64 libasound2t64 libdbus-1-3 libx11-xcb1 libxtst6 fonts-dejavu >/dev/null
+      - name: Get the engine (Mozilla's Firefox ESR, official build)
+        run: |
+          curl -fsSL -o engine.tar.xz "https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US"
+          mkdir -p work && tar -xf engine.tar.xz -C work
+          grep -E "^Version" work/firefox/application.ini
+      - name: Put Aqua on top
+        run: python3 build/apply.py linux work/firefox
+      - name: Package .deb
+        run: bash build/make-deb.sh work/firefox
+      - name: Screenshots
+        run: bash test/screenshots.sh "$PWD/work/firefox" shots
+      - uses: actions/upload-artifact@v4
+        with: { name: aqua-linux, path: dist/*.deb }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: screenshots-linux, path: shots/ }
+
+  mac:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: python3 -m pip install --quiet --break-system-packages pillow || python3 -m pip install --quiet pillow
+      - name: Get the engine (Mozilla's Firefox ESR, official build)
+        run: curl -fsSL -o engine.dmg "https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=osx&lang=en-US"
+      - name: Build Aqua Browser.app
+        run: bash build/make-mac.sh engine.dmg
+      - uses: actions/upload-artifact@v4
+        with: { name: aqua-mac, path: dist/*.zip }
+
+  windows:
+    runs-on: windows-2022
+    defaults: { run: { shell: bash } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: |
+          python -m pip install --quiet pillow
+          curl -fsSL -o rcedit.exe https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe
+          if [ ! -x "/c/Program Files (x86)/NSIS/makensis.exe" ]; then choco install nsis -y --no-progress; fi
+      - name: Get the engine (Mozilla's Firefox ESR, official build)
+        run: |
+          curl -fsSL -o engine-setup.exe "https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=win64&lang=en-US"
+          7z x -y -owork engine-setup.exe >/dev/null
+          grep -E "^Version" work/core/application.ini
+      - name: Put Aqua on top
+        run: python build/apply.py windows work/core
+      - name: Aqua icon and name on the programs
+        run: |
+          V="$(cat VERSION)"
+          # Mozilla's signature would no longer match once the icon changes, so take it off first.
+          ST="$(ls /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.*/x64/signtool.exe 2>/dev/null | tail -1)"
+          for exe in work/core/firefox.exe work/core/private_browsing.exe; do
+            [ -f "$exe" ] || continue
+            [ -n "$ST" ] && "$ST" remove //s "$exe" || true
+            ./rcedit.exe "$exe" --set-icon dist-aqua.ico \
+              --set-version-string ProductName "Aqua Browser" --set-version-string FileDescription "Aqua Browser" \
+              --set-version-string CompanyName "Aqua Browser" --set-version-string InternalName "Aqua Browser" \
+              --set-version-string LegalTrademarks "" --set-product-version "$V"
+          done
+      - name: Build the installer
+        run: |
+          V="$(cat VERSION)"; mkdir -p dist
+          "/c/Program Files (x86)/NSIS/makensis.exe" -V2 \
+            "-DSRC=$(cygpath -w "$PWD/work/core")" "-DOUTFILE=$(cygpath -w "$PWD/dist/AquaBrowser-Windows-$V-Setup.exe")" \
+            "-DVERSION=$V" "-DICON=$(cygpath -w "$PWD/dist-aqua.ico")" "$(cygpath -w "$PWD/build/windows/installer.nsi")"
+          ls -la dist
+      - name: Install it (silently) and check
+        run: |
+          ./dist/AquaBrowser-Windows-*-Setup.exe //S
+          sleep 5
+          ls "$LOCALAPPDATA/Programs/Aqua Browser/" | head -40
+          test -f "$LOCALAPPDATA/Programs/Aqua Browser/firefox.exe"
+          test -f "$LOCALAPPDATA/Programs/Aqua Browser/aqua.cfg"
+      - name: Screenshots
+        continue-on-error: true
+        shell: pwsh
+        run: pwsh test/screenshots-windows.ps1 "$env:LOCALAPPDATA\Programs\Aqua Browser\firefox.exe" shots
+      - uses: actions/upload-artifact@v4
+        with: { name: aqua-windows, path: dist/*.exe }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: screenshots-windows, path: shots/ }
+
+  release:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'yes'
+    needs: [linux, mac, windows]
+    runs-on: ubuntu-24.04
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: out, pattern: aqua-*, merge-multiple: true }
+      - name: Publish release
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          V="$(cat VERSION)"
+          # Same file names every version, so the website's .../releases/latest/download/<name> links always work.
+          mkdir -p rel
+          cp out/AquaBrowser-Linux-*-amd64.deb rel/AquaBrowser-Linux-amd64.deb
+          cp out/AquaBrowser-Mac-*.zip rel/AquaBrowser-Mac.zip
+          cp out/AquaBrowser-Windows-*-Setup.exe rel/AquaBrowser-Windows-Setup.exe
+          NOTES="Aqua Browser $V on Mozilla's open-source engine (Firefox ESR).
+          - Kubuntu / Ubuntu / Debian: AquaBrowser-Linux-amd64.deb (open it with Discover, or sudo apt install ./AquaBrowser-Linux-amd64.deb)
+          - Mac: AquaBrowser-Mac.zip (unzip, then right-click Install Aqua Browser.command → Open)
+          - Windows 10/11: AquaBrowser-Windows-Setup.exe (if SmartScreen appears: More info → Run anyway)"
+          gh release create "v$V" rel/* --title "Aqua Browser $V" --notes "$NOTES" || gh release upload "v$V" rel/* --clobber

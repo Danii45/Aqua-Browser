@@ -1,0 +1,285 @@
+/* Aqua Browser — the look of the browser window (tabs, toolbar, LCD address bar, menus, page frame).
+   Loaded into every window by boot.sys.mjs. Everything is tinted by --aqua-h (shell) and --aqua-lh
+   (display), which aqua-window.js sets from the colour settings, exactly like Aqua MD. */
+@font-face { font-family: "Aqua Doto"; src: url("chrome://aqua/content/fonts/doto-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+@font-face { font-family: "Aqua Doto"; src: url("chrome://aqua/content/fonts/doto-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Aqua Michroma"; src: url("chrome://aqua/content/fonts/michroma-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Aqua Barlow"; src: url("chrome://aqua/content/fonts/barlow-semi-condensed-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Aqua Barlow"; src: url("chrome://aqua/content/fonts/barlow-semi-condensed-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Aqua Barlow"; src: url("chrome://aqua/content/fonts/barlow-semi-condensed-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@property --aqua-h { syntax: "<number>"; inherits: true; initial-value: 214; }
+@property --aqua-lh { syntax: "<number>"; inherits: true; initial-value: 192; }
+
+:root {
+  --aqua-h: 214; --aqua-lh: 192; --aqua-ga: 1; --aqua-blur: 16px; --aqua-rs: 1; --aqua-fade: 1.4s;
+  transition: --aqua-h var(--aqua-fade) cubic-bezier(.4,0,.2,1), --aqua-lh var(--aqua-fade) cubic-bezier(.4,0,.2,1) !important;
+  --a-desk: hsl(calc(var(--aqua-h) + 7) 53% 6%);
+  --a-desk-2: hsl(calc(var(--aqua-h) + 9) 60% 12%);
+  --a-ink: hsl(var(--aqua-h) 100% 95%);
+  --a-ink-dim: hsl(calc(var(--aqua-h) + 4) 34% 66%);
+  --a-edge: hsl(calc(var(--aqua-h) - 5) 100% 79% / .42);
+  --a-edge-soft: hsl(calc(var(--aqua-h) - 5) 100% 79% / .18);
+  --a-lcd: hsl(calc(var(--aqua-h) - 2) 82% 7%);
+  --a-lcd-on: hsl(var(--aqua-lh) 100% 78%);
+  --a-lcd-hot: hsl(calc(var(--aqua-lh) - 3) 100% 96%);
+  --a-lcd-glow: hsl(var(--aqua-lh) 100% 72% / .55);
+  --a-lcd-off: hsl(var(--aqua-lh) 100% 78% / .11);
+  --a-panel: hsl(calc(var(--aqua-h) + 7) 58% 9%);
+  --a-glass-top: hsl(calc(var(--aqua-h) - 5) 100% 77% / calc(.24 * var(--aqua-ga)));
+  --a-glass-bot: hsl(calc(var(--aqua-h) + 4) 86% 57% / calc(.13 * var(--aqua-ga)));
+  --a-r: calc(11px * var(--aqua-rs));
+  --a-font-body: "Aqua Barlow", "Barlow Semi Condensed", "Noto Sans", system-ui, sans-serif;
+  --a-font-dot: "Aqua Doto", "DejaVu Sans Mono", monospace;
+  --a-font-label: "Aqua Michroma", "DejaVu Sans", sans-serif;
+  --a-frame: 8px;
+
+  /* the engine's own colour variables, pointed at Aqua's */
+  --lwt-accent-color: var(--a-desk) !important;
+  --lwt-accent-color-inactive: var(--a-desk) !important;
+  --lwt-text-color: var(--a-ink) !important;
+  --toolbox-bgcolor: transparent !important;
+  --toolbox-bgcolor-inactive: transparent !important;
+  --toolbox-textcolor: var(--a-ink) !important;
+  --toolbox-textcolor-inactive: var(--a-ink-dim) !important;
+  --toolbar-bgcolor: transparent !important;
+  --toolbar-color: var(--a-ink) !important;
+  --toolbar-field-background-color: transparent !important;
+  --toolbar-field-color: var(--a-lcd-on) !important;
+  --toolbar-field-border-color: transparent !important;
+  --toolbar-field-focus-background-color: var(--a-lcd) !important;
+  --toolbar-field-focus-color: var(--a-ink) !important;
+  --toolbar-field-focus-border-color: var(--a-lcd-on) !important;
+  --toolbarbutton-icon-fill: var(--a-ink) !important;
+  --toolbarbutton-icon-fill-attention: var(--a-lcd-on) !important;
+  --toolbarbutton-hover-background: transparent !important;
+  --toolbarbutton-active-background: transparent !important;
+  --toolbarbutton-border-radius: var(--a-r) !important;
+  --tab-selected-bgcolor: transparent !important;
+  --tab-selected-textcolor: var(--a-ink) !important;
+  --tab-hover-background-color: transparent !important;
+  --tab-border-radius: var(--a-r) !important;
+  --tab-loading-fill: var(--a-lcd-on) !important;
+  --tab-attention-icon-color: var(--a-lcd-on) !important;
+  --tab-selected-shadow: none !important;
+  --tabs-navbar-separator-color: transparent !important;
+  --tabs-navbar-separator-style: none !important;
+  --chrome-content-separator-color: transparent !important;
+  --tabpanel-background-color: var(--a-desk) !important;
+  --arrowpanel-background: var(--a-panel) !important;
+  --arrowpanel-color: var(--a-ink) !important;
+  --arrowpanel-border-color: var(--a-edge) !important;
+  --arrowpanel-border-radius: calc(16px * var(--aqua-rs)) !important;
+  --arrowpanel-dimmed: hsl(var(--aqua-h) 100% 70% / .1) !important;
+  --arrowpanel-dimmed-further: hsl(var(--aqua-h) 100% 70% / .18) !important;
+  --panel-separator-color: var(--a-edge-soft) !important;
+  --panel-item-hover-bgcolor: hsl(var(--aqua-h) 100% 70% / .14) !important;
+  --menu-background-color: var(--a-panel) !important;
+  --menu-color: var(--a-ink) !important;
+  --menu-border-color: var(--a-edge) !important;
+  --menu-disabled-color: var(--a-ink-dim) !important;
+  --menuitem-hover-background-color: hsl(var(--aqua-h) 100% 70% / .16) !important;
+  --urlbarView-highlight-background: hsl(var(--aqua-h) 100% 70% / .18) !important;
+  --urlbarView-highlight-color: var(--a-ink) !important;
+  --urlbarView-hover-background: hsl(var(--aqua-h) 100% 70% / .1) !important;
+  --urlbarView-separator-color: var(--a-edge-soft) !important;
+  --urlbar-box-bgcolor: hsl(var(--aqua-lh) 100% 78% / .08) !important;
+  --urlbar-box-hover-bgcolor: hsl(var(--aqua-lh) 100% 78% / .16) !important;
+  --urlbar-box-text-color: var(--a-lcd-on) !important;
+  --focus-outline-color: var(--a-lcd-on) !important;
+  --color-accent-primary: var(--a-lcd-on) !important;
+  --color-accent-primary-hover: var(--a-lcd-hot) !important;
+  --color-accent-primary-active: var(--a-lcd-hot) !important;
+  --sidebar-background-color: transparent !important;
+  --sidebar-text-color: var(--a-ink) !important;
+  --sidebar-border-color: transparent !important;
+  --attention-dot-color: var(--a-lcd-on) !important;
+  --button-background-color: var(--a-glass-top) !important;
+  --button-text-color: var(--a-ink) !important;
+  color-scheme: dark !important;
+}
+:root.aqua-no-frame { --a-frame: 0px; }
+
+/* ---------- the desk behind everything ---------- */
+:root, #main-window {
+  background:
+    radial-gradient(1100px 600px at 80% -10%, hsl(var(--aqua-h) 80% 50% / .22), transparent 70%),
+    radial-gradient(800px 500px at 0% 20%, hsl(calc(var(--aqua-h) + 8) 100% 62% / .10), transparent 70%),
+    linear-gradient(180deg, var(--a-desk-2), var(--a-desk) 700px) !important;
+  background-color: var(--a-desk) !important;
+}
+#navigator-toolbox, #titlebar, #TabsToolbar, #nav-bar, #PersonalToolbar, #browser, #sidebar-main, #sidebar-box, #toolbar-menubar {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--a-ink) !important;
+}
+#navigator-toolbox { border-bottom: 0 !important; }
+#navigator-toolbox, menupopup, panel, #sidebar-main, findbar, #tabbrowser-tabs { font-family: var(--a-font-body) !important; }
+:root.aqua-font-system :is(#navigator-toolbox, menupopup, panel, #sidebar-main, findbar, #tabbrowser-tabs) { font-family: system-ui, sans-serif !important; }
+
+/* ---------- the page sits in a rounded glass frame, like the screen on Aqua MD's site ---------- */
+#tabbrowser-tabbox {
+  margin: 0 var(--a-frame) var(--a-frame) !important;
+  border-radius: calc(18px * var(--aqua-rs)) !important;
+  overflow: clip !important;
+  outline: 1.5px solid var(--a-edge-soft) !important;
+  outline-offset: -1px;
+  box-shadow: 0 0 0 1px hsl(calc(var(--aqua-h) + 9) 100% 4% / .6), 0 16px 40px hsl(calc(var(--aqua-h) + 9) 100% 4% / .5) !important;
+  background: var(--a-desk) !important;
+}
+:root.aqua-no-frame #tabbrowser-tabbox, :root[inDOMFullscreen] #tabbrowser-tabbox, :root[sizemode="fullscreen"] #tabbrowser-tabbox {
+  margin: 0 !important; border-radius: 0 !important; outline: none !important; box-shadow: none !important;
+}
+#tabbrowser-tabpanels, .browserStack, .browserContainer { background: transparent !important; }
+
+/* ---------- tabs: glass chips like the disc rack ---------- */
+#TabsToolbar { padding-inline: 6px 2px !important; }
+#tabbrowser-tabs { --tab-min-height: 32px !important; border-inline-start: 0 !important; }
+.tabbrowser-tab { padding-inline: 2px !important; }
+.tab-background {
+  border-radius: var(--a-r) !important;
+  border: 1.5px solid hsl(calc(var(--aqua-h) - 5) 100% 79% / .2) !important;
+  background: hsl(calc(var(--aqua-h) + 6) 72% 51% / calc(.1 * var(--aqua-ga))) !important;
+  box-shadow: none !important; outline: none !important;
+  transition: background .2s, border-color .25s, box-shadow .25s !important;
+}
+.tabbrowser-tab:hover:not([visuallyselected]) .tab-background {
+  background: hsl(calc(var(--aqua-h) + 5) 81% 58% / calc(.2 * var(--aqua-ga))) !important;
+}
+.tabbrowser-tab[visuallyselected] .tab-background, .tabbrowser-tab[multiselected] .tab-background {
+  border-color: hsl(var(--aqua-lh) 100% 78% / .75) !important;
+  background: linear-gradient(180deg, hsl(calc(var(--aqua-h) - 5) 100% 77% / calc(.28 * var(--aqua-ga))), hsl(calc(var(--aqua-h) + 4) 86% 57% / calc(.14 * var(--aqua-ga)))) !important;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45), 0 0 0 2px hsl(var(--aqua-lh) 100% 78% / .16), 0 0 18px hsl(var(--aqua-lh) 100% 72% / .2) !important;
+}
+.tab-label { font-family: var(--a-font-body) !important; font-size: 14px !important; font-weight: 500 !important; color: var(--a-ink-dim) !important; }
+.tabbrowser-tab[visuallyselected] .tab-label, .tabbrowser-tab:hover .tab-label { color: var(--a-ink) !important; }
+.tab-close-button { border-radius: 7px !important; fill: var(--a-ink-dim) !important; }
+.tab-close-button:hover { background: hsl(var(--aqua-h) 90% 60% / .22) !important; fill: var(--a-ink) !important; }
+.tab-throbber[busy]::before { fill: var(--a-lcd-on) !important; }
+.tab-icon-overlay, .tab-audio-button { fill: var(--a-lcd-on) !important; }
+.tabbrowser-tab[pinned] .tab-background { border-radius: var(--a-r) !important; }
+#tabs-newtab-button > .toolbarbutton-icon, #new-tab-button > .toolbarbutton-icon, #vertical-tabs-newtab-button {
+  border: 1.5px dashed hsl(calc(var(--aqua-h) - 6) 100% 83% / .5) !important;
+  border-radius: var(--a-r) !important; background: transparent !important; fill: var(--a-lcd-on) !important;
+}
+#tabs-newtab-button:hover > .toolbarbutton-icon, #new-tab-button:hover > .toolbarbutton-icon { background: hsl(var(--aqua-h) 90% 60% / .14) !important; }
+.tab-group-label { font-family: var(--a-font-label) !important; letter-spacing: .14em; }
+
+/* vertical (side) tabs */
+#sidebar-main { padding-inline-start: 4px !important; }
+#vertical-tabs .tabbrowser-tab { padding-block: 2px !important; }
+#tabbrowser-tabs[orient="vertical"] .tab-background { margin-inline: 2px !important; }
+#sidebar-main .tools-and-extensions toolbarbutton, #sidebar-main button { fill: var(--a-ink) !important; color: var(--a-ink) !important; }
+
+/* ---------- toolbar buttons: Aqua MD's transport buttons, shrunk ---------- */
+#nav-bar { padding: 4px 8px 5px !important; --toolbarbutton-outer-padding: 3px !important; }
+:is(#nav-bar, #TabsToolbar) .toolbarbutton-1:not(#tabs-newtab-button, #new-tab-button, #alltabs-button) > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+  border-radius: var(--a-r) !important;
+  border: 1.5px solid hsl(calc(var(--aqua-h) - 6) 100% 83% / .42) !important;
+  background: linear-gradient(180deg, var(--a-glass-top), var(--a-glass-bot)) !important;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45), inset 0 -6px 12px hsl(calc(var(--aqua-h) + 11) 86% 27% / .3), 0 4px 10px hsl(calc(var(--aqua-h) + 8) 100% 8% / .35) !important;
+  transition: background .2s, box-shadow .25s, transform .12s !important;
+}
+:is(#nav-bar, #TabsToolbar) .toolbarbutton-1:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+  background: linear-gradient(180deg, hsl(calc(var(--aqua-h) - 7) 100% 81% / calc(.34 * var(--aqua-ga))), hsl(var(--aqua-h) 90% 60% / calc(.2 * var(--aqua-ga)))) !important;
+}
+:is(#nav-bar, #TabsToolbar) .toolbarbutton-1:not([disabled]):active > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) { transform: translateY(1px) scale(.96); }
+:is(#nav-bar, #TabsToolbar) .toolbarbutton-1:is([open], [checked]) > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+  fill: var(--a-lcd-hot) !important;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.5), 0 0 0 2px hsl(var(--aqua-lh) 100% 78% / .35), 0 0 18px hsl(var(--aqua-lh) 100% 72% / .3) !important;
+}
+:is(#nav-bar, #TabsToolbar) .toolbarbutton-1[disabled] > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) { opacity: .38 !important; }
+.toolbarbutton-badge { background-color: var(--a-lcd-on) !important; color: hsl(var(--aqua-h) 80% 10%) !important; box-shadow: 0 0 8px var(--a-lcd-glow) !important; }
+#downloads-indicator-progress-inner { background: conic-gradient(var(--a-lcd-on) var(--download-progress-pcent), transparent var(--download-progress-pcent)) !important; }
+
+/* the profile chip */
+#aqua-profile-button { padding-inline: 3px !important; }
+#aqua-profile-button > .toolbarbutton-icon {
+  list-style-image: url("chrome://aqua/content/img/disc.svg") !important;
+  -moz-context-properties: fill, stroke; fill: hsl(var(--aqua-h) 100% 85%); stroke: hsl(var(--aqua-h) 100% 92%);
+  width: 26px !important; height: 26px !important;
+  border-inline-end: 0 !important; border-start-end-radius: 0 !important; border-end-end-radius: 0 !important; padding-inline-end: 2px !important;
+}
+#aqua-profile-button > .toolbarbutton-text {
+  display: flex !important; align-items: center; min-height: calc(var(--toolbarbutton-inner-padding) * 2 + 16px);
+  padding: 0 12px 0 4px !important; margin-inline-start: -3px !important;
+  border: 1.5px solid hsl(calc(var(--aqua-h) - 6) 100% 83% / .42) !important; border-inline-start: 0 !important;
+  border-radius: 0 var(--a-r) var(--a-r) 0 !important;
+  background: linear-gradient(180deg, var(--a-glass-top), var(--a-glass-bot)) !important;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45), inset 0 -6px 12px hsl(calc(var(--aqua-h) + 11) 86% 27% / .3), 0 4px 10px hsl(calc(var(--aqua-h) + 8) 100% 8% / .35) !important;
+  font-family: var(--a-font-label) !important; font-size: 9px !important; letter-spacing: .2em !important; text-transform: uppercase; color: var(--a-ink) !important;
+}
+.aqua-menu-caption { font-family: var(--a-font-label) !important; font-size: 9px !important; letter-spacing: .24em !important; color: var(--a-ink-dim) !important; opacity: 1 !important; }
+
+/* ---------- the address bar is Aqua MD's dot-matrix display ---------- */
+#urlbar-background {
+  background:
+    radial-gradient(hsl(var(--aqua-lh) 100% 78% / .05) 1px, transparent 1.4px) 0 0 / 5px 5px,
+    radial-gradient(120% 140% at 30% 0%, hsl(calc(var(--aqua-h) - 2) 79% 12%), var(--a-lcd) 60%) !important;
+  border: 1.5px solid hsl(calc(var(--aqua-h) - 4) 100% 79% / .34) !important;
+  border-radius: calc(15px * var(--aqua-rs)) !important;
+  box-shadow: inset 0 0 40px hsl(calc(var(--aqua-lh) + 8) 100% 62% / .09), inset 0 2px 8px rgba(0,0,0,.45), 0 0 0 3px hsl(calc(var(--aqua-h) + 6) 75% 16% / .3) !important;
+  outline: none !important;
+}
+#urlbar[focused] > #urlbar-background, #urlbar[open] > #urlbar-background {
+  border-color: var(--a-lcd-on) !important;
+  box-shadow: inset 0 0 40px hsl(calc(var(--aqua-lh) + 8) 100% 62% / .12), inset 0 2px 8px rgba(0,0,0,.45), 0 0 0 3px hsl(var(--aqua-lh) 100% 78% / .2), 0 0 22px hsl(var(--aqua-lh) 100% 72% / .22) !important;
+}
+#urlbar-input { font-family: var(--a-font-body) !important; font-size: 15px !important; color: var(--a-lcd-hot) !important; }
+:root:not(.aqua-addr-plain) #urlbar:not([focused]) #urlbar-input {
+  font-family: var(--a-font-dot) !important; font-weight: 900 !important; font-size: 17px !important; letter-spacing: .02em !important;
+  color: var(--a-lcd-on) !important; text-shadow: 0 0 10px var(--a-lcd-glow) !important;
+}
+#urlbar-input::placeholder { font-family: var(--a-font-dot) !important; font-weight: 700 !important; color: var(--a-lcd-on) !important; opacity: .45 !important; text-shadow: none !important; }
+#urlbar :is(#identity-icon, #tracking-protection-icon, #permissions-granted-icon, .urlbar-icon, #identity-permission-box image, #star-button) { fill: var(--a-lcd-on) !important; }
+#star-button[starred] { fill: var(--a-lcd-on) !important; filter: drop-shadow(0 0 5px var(--a-lcd-glow)); }
+#identity-box[pageproxystate="valid"].notSecure #identity-icon { fill: #ffcf7a !important; }
+#urlbar-label-box, #identity-icon-label { font-family: var(--a-font-label) !important; font-size: 9px !important; letter-spacing: .16em !important; text-transform: uppercase; color: var(--a-lcd-on) !important; }
+.aqua-ind {
+  font-family: var(--a-font-label) !important; font-size: 9px !important; letter-spacing: .18em !important; text-transform: uppercase;
+  color: var(--a-lcd-on) !important; text-shadow: 0 0 8px var(--a-lcd-glow) !important; margin: 0 8px 0 4px !important; align-self: center !important;
+}
+#urlbar[focused] .aqua-ind { display: none !important; }
+.urlbarView-title, .urlbarView-row { color: var(--a-ink) !important; font-family: var(--a-font-body) !important; }
+.urlbarView-url { color: var(--a-lcd-on) !important; }
+.urlbarView-action { color: var(--a-ink-dim) !important; }
+.search-one-offs .searchbar-engine-one-off-item { border-radius: 8px !important; }
+
+/* ---------- bookmarks bar ---------- */
+#PersonalToolbar { padding: 0 12px 5px !important; min-height: 28px !important; }
+#PersonalToolbar toolbarbutton.bookmark-item { font-family: var(--a-font-body) !important; font-size: 13px !important; font-weight: 500 !important; color: var(--a-ink-dim) !important; border-radius: calc(8px * var(--aqua-rs)) !important; border: 1px solid transparent !important; padding: 3px 8px !important; }
+#PersonalToolbar toolbarbutton.bookmark-item:hover, #PersonalToolbar toolbarbutton.bookmark-item[open] { background: hsl(var(--aqua-h) 90% 60% / .13) !important; color: var(--a-ink) !important; border-color: var(--a-edge-soft) !important; }
+#PersonalToolbar .bookmark-item[container] { fill: var(--a-lcd-on) !important; }
+
+/* ---------- menus and panels: dark glass ---------- */
+menupopup, panel { --panel-background: var(--a-panel) !important; --panel-color: var(--a-ink) !important; --panel-border-color: var(--a-edge) !important; --panel-border-radius: calc(14px * var(--aqua-rs)) !important; --panel-shadow-margin: 8px; }
+menupopup > menuitem, menupopup > menu { border-radius: calc(8px * var(--aqua-rs)) !important; }
+menupopup > menuitem[_moz-menuactive], menupopup > menu[_moz-menuactive] { background-color: hsl(var(--aqua-h) 100% 70% / .16) !important; color: var(--a-ink) !important; }
+.panel-header > h1, .panel-subview-body .subviewbutton-nav::after { font-family: var(--a-font-label) !important; letter-spacing: .14em; }
+.panel-header > h1 { font-size: 11px !important; text-transform: uppercase; }
+panel button.footer-button.primary, .panel-footer button[default], button.primary { background-color: hsl(var(--aqua-lh) 100% 60% / .35) !important; color: var(--a-lcd-hot) !important; border: 1.5px solid var(--a-lcd-on) !important; }
+
+/* ---------- find bar ---------- */
+findbar { background: var(--a-desk) !important; border-top: 1px solid var(--a-edge-soft) !important; }
+.findbar-textbox { background: var(--a-lcd) !important; color: var(--a-lcd-hot) !important; border: 1.5px solid hsl(calc(var(--aqua-h) - 4) 100% 79% / .34) !important; border-radius: 10px !important; }
+.found-matches, .findbar-find-status { font-family: var(--a-font-dot) !important; font-weight: 900 !important; color: var(--a-lcd-on) !important; }
+
+/* ---------- window controls on Linux and Windows: glass beads ---------- */
+@media (-moz-platform: linux) or (-moz-platform: windows) {
+  .titlebar-buttonbox-container { align-items: center !important; padding-inline: 4px 8px !important; }
+  .titlebar-buttonbox { gap: 6px; }
+  .titlebar-button { appearance: none !important; padding: 0 !important; background: none !important; border: 0 !important; }
+  .titlebar-button > .toolbarbutton-icon {
+    appearance: none !important; width: 24px !important; height: 24px !important; padding: 6px !important; border-radius: 50% !important;
+    border: 1.5px solid hsl(calc(var(--aqua-h) - 6) 100% 83% / .35) !important;
+    background: radial-gradient(circle at 38% 30%, hsl(calc(var(--aqua-h) - 7) 100% 91% / .35), hsl(var(--aqua-h) 94% 60% / .14) 60%) !important;
+    -moz-context-properties: stroke !important; stroke: var(--a-ink-dim) !important;
+  }
+  .titlebar-button:hover > .toolbarbutton-icon { stroke: var(--a-ink) !important; background: radial-gradient(circle at 38% 30%, hsl(calc(var(--aqua-h) - 7) 100% 91% / .55), hsl(var(--aqua-h) 94% 60% / .28) 60%) !important; }
+  .titlebar-close:hover > .toolbarbutton-icon { background: radial-gradient(circle at 38% 30%, #ffd0c4, #e0583c 70%) !important; border-color: #ffb8a6 !important; stroke: #fff !important; }
+  .titlebar-min > .toolbarbutton-icon { list-style-image: url("chrome://aqua/content/img/win-min.svg") !important; }
+  .titlebar-max > .toolbarbutton-icon { list-style-image: url("chrome://aqua/content/img/win-max.svg") !important; }
+  .titlebar-restore > .toolbarbutton-icon { list-style-image: url("chrome://aqua/content/img/win-restore.svg") !important; }
+  .titlebar-close > .toolbarbutton-icon { list-style-image: url("chrome://aqua/content/img/win-close.svg") !important; }
+}

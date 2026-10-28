@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aqua Browser</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Aqua Browser: a glass web browser in the style of Aqua MD, for Kubuntu, Mac and Windows. Home and Work profiles, a home page you build, passwords that stay on your computer.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2hlbGwiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjNmZiMmZmIi8+PHN0b3Agb2Zmc2V0PSIuNDUiIHN0b3AtY29sb3I9IiMzYTdjZTYiLz48c3RvcCBvZmZzZXQ9Ii43NSIgc3RvcC1jb2xvcj0iIzI3YjdkOCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBmN2Q5ZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZWRnZSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2Q5ZWNmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzlmZTlmMiIvPjwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb2JlIiBjeD0iLjM4IiBjeT0iLjMyIiByPSIuNzUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iLjk1Ii8+PHN0b3Agb2Zmc2V0PSIuNDUiIHN0b3AtY29sb3I9IiNiZmUyZmYiIHN0b3Atb3BhY2l0eT0iLjcyIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNWFhOGYwIiBzdG9wLW9wYWNpdHk9Ii41Ii8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJsYWJlbCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2Y0ZjhmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U2ZjNmYiIvPjwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InRpbGUiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyZDZmZDgiLz48c3RvcCBvZmZzZXQ9Ii41IiBzdG9wLWNvbG9yPSIjOGZkMGZmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMWQ0ZmIwIi8+PC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2hlZW4iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iLjMyIi8+PHN0b3Agb2Zmc2V0PSIuMyIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+PHN0b3Agb2Zmc2V0PSIuNzUiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+CiAgICA8Y2xpcFBhdGggaWQ9ImciPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjMxMiIgcj0iMTQ4Ii8+PC9jbGlwUGF0aD4KICAgIDxmaWx0ZXIgaWQ9InNvZnQiIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjYiLz48L2ZpbHRlcj4KICA8L2RlZnM+CiAgPHJlY3QgeD0iNDYiIHk9IjM0IiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MiIgcng9IjU4IiBmaWxsPSJ1cmwoI3NoZWxsKSIvPgogIDxyZWN0IHg9IjQ2IiB5PSIzNCIgd2lkdGg9IjQyMCIgaGVpZ2h0PSI0NTIiIHJ4PSI1OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2VkZ2UpIiBzdHJva2Utd2lkdGg9IjciIG9wYWNpdHk9Ii44NSIvPgogIDwhLS0gZ2xhc3MgZ2xvYmUgLS0+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMzEyIiByPSIxNDgiIGZpbGw9InVybCgjZ2xvYmUpIi8+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI2cpIiBmaWxsPSJub25lIiBzdHJva2U9IiMyNDU3YjgiIHN0cm9rZS1vcGFjaXR5PSIuMzgiIHN0cm9rZS13aWR0aD0iNSI+CiAgICA8ZWxsaXBzZSBjeD0iMjU2IiBjeT0iMzEyIiByeD0iNjIiIHJ5PSIxNDgiLz4KICAgIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIzMTIiIHJ4PSIxMTgiIHJ5PSIxNDgiLz4KICAgIDxsaW5lIHgxPSIyNTYiIHkxPSIxNjAiIHgyPSIyNTYiIHkyPSI0NjQiLz4KICAgIDxwYXRoIGQ9Ik0xMDggMzEyaDI5Nk0xMjIgMjQ0YzgwIDIyIDE4OCAyMiAyNjggME0xMjIgMzgwYzgwLTIyIDE4OC0yMiAyNjggMCIvPgogIDwvZz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIzMTIiIHI9IjE0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjc1IiBzdHJva2Utd2lkdGg9IjQiLz4KICA8ZWxsaXBzZSBjeD0iMjA2IiBjeT0iMjUwIiByeD0iNTQiIHJ5PSIzMCIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjU1IiBmaWx0ZXI9InVybCgjc29mdCkiIHRyYW5zZm9ybT0icm90YXRlKC0yOCAyMDYgMjUwKSIvPgogIDwhLS0gdGhlIGJyb3dzZXIgYmFyIChBcXVhIE1EJ3MgZGlzYyBsYWJlbCkgLS0+CiAgPHJlY3QgeD0iNzgiIHk9IjYyIiB3aWR0aD0iMzU2IiBoZWlnaHQ9Ijk4IiByeD0iMjAiIGZpbGw9InVybCgjbGFiZWwpIi8+CiAgPHJlY3QgeD0iOTYiIHk9IjgwIiB3aWR0aD0iNjIiIGhlaWdodD0iNjIiIHJ4PSIxNCIgZmlsbD0idXJsKCN0aWxlKSIvPgogIDxwYXRoIGQ9Ik0xMjcgOTd2MjhNMTEzIDExMWgyOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxyZWN0IHg9IjE3NiIgeT0iOTAiIHdpZHRoPSIyMzYiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzBkMWEzYSIvPgogIDxnIGZpbGw9IiM3ZmUzZmYiPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjIwNiIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjIzNCIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjI0OCIgY3k9IjEwMCIgcj0iNCIvPjwvZz4KICA8cmVjdCB4PSIxNzYiIHk9IjEyMiIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IiM4ZDliYmQiLz4KICA8cmVjdCB4PSI0NiIgeT0iMzQiIHdpZHRoPSI0MjAiIGhlaWdodD0iNDUyIiByeD0iNTgiIGZpbGw9InVybCgjc2hlZW4pIi8+Cjwvc3ZnPgo=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&family=Doto:wght@700;900&family=Michroma&display=swap">
+<style>
+@property --h { syntax: "<number>"; inherits: true; initial-value: 214; }
+@property --lh { syntax: "<number>"; inherits: true; initial-value: 192; }
+
+/* Layout: one column of glass panels on a dark desk. The hero is a working model of the browser, and
+   every colour on the page comes from two hues (--h for the glass, --lh for the LCD) that the colour picker moves. */
+:root {
+  --h: 214; --lh: 192; --ga: 1;
+  --desk: hsl(calc(var(--h) + 7) 53% 6%);
+  --desk-2: hsl(calc(var(--h) + 9) 60% 12%);
+  --ink: hsl(var(--h) 100% 95%);
+  --ink-dim: hsl(calc(var(--h) + 4) 36% 72%);
+  --ink-faint: hsl(calc(var(--h) + 6) 28% 54%);
+  --edge: hsl(calc(var(--h) - 5) 100% 79% / .42);
+  --edge-soft: hsl(calc(var(--h) - 5) 100% 79% / .18);
+  --lcd: hsl(calc(var(--h) - 2) 82% 7%);
+  --lcd-on: hsl(var(--lh) 100% 78%);
+  --lcd-hot: hsl(calc(var(--lh) - 3) 100% 96%);
+  --lcd-glow: hsl(var(--lh) 100% 72% / .55);
+  --lcd-off: hsl(var(--lh) 100% 78% / .16);
+  --warm: #ffcf7a;
+  --font-dot: "Doto", ui-monospace, "DejaVu Sans Mono", monospace;
+  --font-label: "Michroma", "Eurostile", "Arial Black", sans-serif;
+  --font-body: "Barlow Semi Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --r-m: 12px; --r-l: 18px; --r-xl: 26px;
+  color-scheme: dark;
+  transition: --h 1.4s cubic-bezier(.4,0,.2,1), --lh 1.4s cubic-bezier(.4,0,.2,1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--desk); scroll-behavior: smooth; }
+body {
+  margin: 0; font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.5; color: var(--ink);
+  background:
+    radial-gradient(1200px 700px at 85% -8%, hsl(var(--h) 80% 50% / .24), transparent 70%),
+    radial-gradient(900px 600px at -5% 18%, hsl(calc(var(--h) + 8) 100% 62% / .10), transparent 70%),
+    linear-gradient(180deg, var(--desk-2), var(--desk) 900px);
+  background-color: var(--desk);
+}
+a { color: var(--lcd-on); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--lcd-on); outline-offset: 3px; }
+::selection { background: hsl(var(--lh) 100% 60% / .45); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.wrap { max-width: 74rem; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* ---------- shared glass, LCD and buttons (the same pieces the browser is made of) ---------- */
+.glass {
+  position: relative;
+  background:
+    linear-gradient(155deg, hsl(calc(var(--h) - 3) 100% 74% / calc(.16 * var(--ga))) 0%, hsl(calc(var(--h) + 4) 86% 57% / calc(.08 * var(--ga))) 42%, hsl(calc(var(--h) + 7) 78% 44% / calc(.14 * var(--ga))) 100%),
+    hsl(calc(var(--h) + 7) 58% 8% / .55);
+  border: 1.5px solid var(--edge);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.38), inset 0 -18px 46px hsl(calc(var(--h) + 11) 86% 27% / .30), 0 24px 60px hsl(calc(var(--h) + 9) 100% 4% / .55);
+  -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%);
+}
+.glass::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(112deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,0) 26%, rgba(255,255,255,0) 72%, rgba(255,255,255,.05) 100%); }
+.lcd {
+  position: relative; overflow: hidden;
+  background: radial-gradient(120% 140% at 30% 0%, hsl(calc(var(--h) - 2) 79% 12%), var(--lcd) 60%);
+  border: 1.5px solid hsl(calc(var(--h) - 4) 100% 79% / .34);
+  box-shadow: inset 0 0 40px hsl(calc(var(--lh) + 8) 100% 62% / .09), inset 0 2px 8px rgba(0,0,0,.45), 0 0 0 3px hsl(calc(var(--h) + 6) 75% 16% / .3);
+}
+.lcd::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(hsl(var(--lh) 100% 78% / .05) 1px, transparent 1.4px); background-size: 5px 5px; }
+.ind { font-family: var(--font-label); font-size: .5625rem; letter-spacing: .18em; color: var(--lcd-off); white-space: nowrap; text-transform: uppercase; }
+.ind.on { color: var(--lcd-on); text-shadow: 0 0 8px var(--lcd-glow); }
+.ind.warm { color: var(--warm); text-shadow: 0 0 8px rgba(255,207,122,.5); }
+.eyebrow { font-family: var(--font-label); font-size: .6875rem; letter-spacing: .24em; text-transform: uppercase; color: var(--lcd-on); text-shadow: 0 0 10px var(--lcd-glow); }
+.label { font-family: var(--font-label); font-size: .625rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-dim); }
+
+.btn { min-height: 3rem; padding: 0 1.3rem; border-radius: var(--r-m); border: 1.5px solid hsl(calc(var(--h) - 6) 100% 83% / .45);
+  background: linear-gradient(180deg, hsl(calc(var(--h) - 5) 100% 77% / .25), hsl(calc(var(--h) + 4) 86% 57% / .15));
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.42); color: var(--ink); font: 600 1.0625rem/1 var(--font-body); text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem; cursor: pointer; transition: background .2s, transform .12s, box-shadow .25s; }
+.btn:hover { background: linear-gradient(180deg, hsl(calc(var(--h) - 7) 100% 81% / .36), hsl(var(--h) 90% 60% / .22)); }
+.btn:active { transform: scale(.97); }
+.btn.primary { border-color: var(--lcd-on); color: var(--lcd-hot); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.5), 0 0 22px hsl(var(--lh) 100% 72% / .3); }
+.btn.ghost { background: transparent; box-shadow: none; border-color: var(--edge-soft); }
+.btn.small { min-height: 2.375rem; padding: 0 .95rem; font-size: .9375rem; }
+.btn svg { width: 1.15rem; height: 1.15rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip { min-height: 2.125rem; padding: 0 .8rem; border-radius: var(--r-m); border: 1.5px solid hsl(calc(var(--h) - 4) 100% 81% / .35);
+  background: linear-gradient(180deg, hsl(calc(var(--h) - 3) 100% 77% / .16), hsl(calc(var(--h) + 4) 86% 57% / .08)); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.3);
+  font-family: var(--font-label); font-size: .5625rem; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-dim); cursor: pointer; transition: color .2s, box-shadow .25s; }
+.chip:hover { color: var(--ink); }
+.chip[aria-pressed="true"] { color: var(--lcd-hot); border-color: hsl(var(--lh) 100% 78% / .7); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.5), 0 0 0 2px hsl(var(--lh) 100% 78% / .25), 0 0 14px hsl(var(--lh) 100% 72% / .25); }
+
+.swatches { display: flex; flex-wrap: wrap; gap: .55rem; }
+.sw { width: 2.25rem; height: 2.25rem; border-radius: 50%; border: 2px solid hsl(calc(var(--sh) - 5) 100% 85% / .75); padding: 0; cursor: pointer;
+  background: radial-gradient(circle at 36% 30%, hsl(var(--sh) 100% 88% / .95), hsl(var(--sh) 90% 58% / .6) 55%, hsl(var(--sh) 85% 38% / .75));
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.5), 0 3px 10px rgba(0,0,0,.35); transition: transform .15s, box-shadow .25s; }
+.sw:active { transform: scale(.94); }
+.sw[aria-pressed="true"] { box-shadow: inset 0 2px 0 rgba(255,255,255,.5), 0 0 0 3px var(--desk), 0 0 0 5px hsl(var(--sh) 100% 75%), 0 0 18px hsl(var(--sh) 100% 65% / .6); }
+.sw.auto { --sh: 214; border-color: rgba(255,255,255,.7); background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.75), transparent 45%), conic-gradient(hsl(214 90% 62%), hsl(178 85% 52%), hsl(140 80% 50%), hsl(26 95% 60%), hsl(354 88% 62%), hsl(322 85% 64%), hsl(266 85% 66%), hsl(214 90% 62%)); }
+
+/* ---------- top bar ---------- */
+.top { padding-block: 1.1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--ink); }
+.brand img { width: 2.25rem; height: 2.25rem; display: block; filter: hue-rotate(calc((var(--h) - 214) * 1deg)) drop-shadow(0 4px 10px rgba(0,0,0,.4)); }
+.brand span { font-family: var(--font-label); font-size: .8125rem; letter-spacing: .26em; text-transform: uppercase; }
+.nav { display: flex; gap: .3rem; flex-wrap: wrap; }
+.nav a { color: var(--ink-dim); text-decoration: none; font-weight: 500; padding: .35rem .7rem; border-radius: var(--r-m); }
+.nav a:hover { color: var(--ink); background: hsl(var(--h) 90% 60% / .12); }
+.nav a.md { color: var(--lcd-on); }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 1.5rem 1rem; display: flex; flex-direction: column; gap: 1.75rem; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2rem; align-items: center; }
+.hero-copy { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
+h1 { font-family: var(--font-label); font-weight: 400; font-size: clamp(1.9rem, 4.4vw, 3.4rem); line-height: 1.12; letter-spacing: .02em; text-transform: uppercase; }
+h1 em { font-style: normal; color: var(--lcd-on); text-shadow: 0 0 24px var(--lcd-glow); }
+.lede { font-size: 1.25rem; line-height: 1.45; color: var(--ink-dim); max-width: 36rem; }
+.cta { display: flex; flex-wrap: wrap; gap: .7rem; }
+.fine { font-size: .9375rem; color: var(--ink-faint); }
+
+.panel { border-radius: var(--r-xl); padding: 1.2rem 1.35rem 1.1rem; display: flex; flex-direction: column; gap: .7rem; min-width: 0; }
+.inds { display: flex; gap: .9rem; flex-wrap: wrap; position: relative; z-index: 1; }
+.panel .big { position: relative; z-index: 1; font-family: var(--font-dot); font-weight: 900; font-size: clamp(2.8rem, 7vw, 5.2rem); line-height: .95; color: var(--lcd-on); text-shadow: 0 0 22px var(--lcd-glow); letter-spacing: .02em; }
+.panel .sub { position: relative; z-index: 1; font-family: var(--font-dot); font-weight: 700; font-size: 1.15rem; color: var(--lcd-on); opacity: .75; }
+.ticker { position: relative; z-index: 1; overflow: hidden; border-top: 1px dashed hsl(var(--lh) 100% 78% / .2); padding-top: .6rem; white-space: nowrap; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.ticker span { display: inline-block; font-family: var(--font-dot); font-weight: 700; font-size: 1.05rem; color: var(--lcd-on); text-shadow: 0 0 10px var(--lcd-glow); padding-right: 3rem; animation: tick 34s linear infinite; }
+@keyframes tick { to { transform: translateX(-100%); } }
+.meter { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.meter i { height: .45rem; border-radius: 2px; background: hsl(var(--sh) 100% 70% / .25); }
+.meter i.on { background: hsl(var(--sh) 100% 72%); box-shadow: 0 0 10px hsl(var(--sh) 100% 65% / .7); }
+
+/* ---------- the model browser ---------- */
+.deck { display: flex; flex-direction: column; gap: 1rem; }
+.win { border-radius: var(--r-xl); overflow: hidden; padding: 0; }
+.win-top { display: flex; align-items: center; gap: .75rem; padding: .55rem .75rem .35rem; min-width: 0; }
+.beads { display: flex; gap: .45rem; flex: none; }
+.beads i { width: .8rem; height: .8rem; border-radius: 50%; border: 1px solid hsl(var(--sh) 100% 85% / .7);
+  background: radial-gradient(circle at 35% 30%, hsl(var(--sh) 100% 92%), hsl(var(--sh) 90% 58%) 60%, hsl(var(--sh) 80% 35%)); box-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.tabs { display: flex; gap: .35rem; flex: 1; min-width: 0; overflow: hidden; }
+.tab { height: 2.1rem; padding: 0 .7rem; border-radius: var(--r-m); display: flex; align-items: center; gap: .5rem; min-width: 0; flex: 0 1 12.5rem;
+  font-size: .9375rem; color: var(--ink-dim); border: 1.5px solid transparent; }
+.tab b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tab.on { color: var(--ink); border-color: var(--edge); background: linear-gradient(180deg, hsl(calc(var(--h) - 5) 100% 77% / .24), hsl(calc(var(--h) + 4) 86% 57% / .1)); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.4); }
+.tab.plus { flex: none; width: 2.1rem; padding: 0; justify-content: center; font-size: 1.2rem; }
+.fav { width: 1.05rem; height: 1.05rem; flex: none; border-radius: 5px; display: grid; place-items: center; font-size: .625rem; font-weight: 600; color: #fff;
+  background: radial-gradient(circle at 35% 30%, hsl(var(--sh) 100% 80%), hsl(var(--sh) 80% 45%)); }
+.win-bar { display: flex; align-items: center; gap: .45rem; padding: .3rem .75rem .7rem; min-width: 0; }
+.gb { width: 2.25rem; height: 2.25rem; flex: none; border-radius: var(--r-m); display: grid; place-items: center; color: var(--ink);
+  border: 1.5px solid hsl(calc(var(--h) - 6) 100% 83% / .42); background: linear-gradient(180deg, hsl(calc(var(--h) - 5) 100% 77% / .24), hsl(calc(var(--h) + 4) 86% 57% / .13)); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45); }
+.gb svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.addr { flex: 1; min-width: 0; height: 2.375rem; border-radius: var(--r-m); display: flex; align-items: center; gap: .7rem; padding: 0 .85rem; }
+.addr .ind { position: relative; z-index: 1; }
+.addr .url { position: relative; z-index: 1; min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-dot); font-weight: 700; font-size: 1.05rem; color: var(--lcd-on); text-shadow: 0 0 10px var(--lcd-glow); }
+.addr .url .dim { opacity: .5; }
+.win.plain .addr .url { font-family: var(--font-body); font-weight: 500; font-size: 1rem; text-shadow: none; color: var(--ink); }
+.pchip { height: 2.25rem; flex: none; padding: 0 .75rem; border-radius: var(--r-m); display: flex; align-items: center; gap: .45rem; cursor: pointer; color: var(--lcd-hot);
+  font-family: var(--font-label); font-size: .5625rem; letter-spacing: .16em; text-transform: uppercase;
+  border: 1.5px solid hsl(var(--lh) 100% 78% / .6); background: linear-gradient(180deg, hsl(calc(var(--h) - 5) 100% 77% / .24), hsl(calc(var(--h) + 4) 86% 57% / .1)); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45), 0 0 14px hsl(var(--lh) 100% 72% / .25); }
+.pchip i { width: .5rem; height: .5rem; border-radius: 50%; background: var(--lcd-on); box-shadow: 0 0 8px var(--lcd-glow); }
+.bm { display: flex; gap: .35rem; padding: 0 .75rem .6rem; overflow: hidden; }
+.bm span { flex: none; display: flex; align-items: center; gap: .4rem; padding: .2rem .6rem; border-radius: 9px; font-size: .875rem; color: var(--ink-dim); background: hsl(var(--h) 90% 60% / .08); }
+.win-body { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--edge-soft); }
+.side { display: none; flex-direction: column; gap: .3rem; padding: .75rem .5rem; border-right: 1px solid var(--edge-soft); background: hsl(calc(var(--h) + 7) 58% 6% / .35); min-width: 0; }
+.side .tab { flex: none; width: 100%; }
+.win.sidetabs .win-body { grid-template-columns: 13rem minmax(0, 1fr); }
+.win.sidetabs .side { display: flex; }
+.win.sidetabs .win-top .tabs { visibility: hidden; }
+.page { padding: 1.5rem clamp(1rem, 3vw, 2.25rem) 2rem; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; align-content: start;
+  background: radial-gradient(900px 400px at 70% 0%, hsl(var(--h) 80% 50% / .16), transparent 70%), hsl(calc(var(--h) + 7) 55% 5% / .55); }
+.w { grid-column: span 6; min-width: 0; border-radius: var(--r-l); }
+.w.half { grid-column: span 3; }
+.w.card { padding: 1rem 1.1rem; }
+.greet { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+.greet h3 { font-weight: 600; font-size: clamp(1.4rem, 3vw, 2rem); }
+.clock { padding: .9rem 1.1rem 1rem; display: flex; flex-direction: column; gap: .3rem; }
+.clock .t { position: relative; z-index: 1; font-family: var(--font-dot); font-weight: 900; font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1; color: var(--lcd-on); text-shadow: 0 0 20px var(--lcd-glow); font-variant-numeric: tabular-nums; }
+.clock .d { position: relative; z-index: 1; font-family: var(--font-dot); font-weight: 700; color: var(--lcd-on); opacity: .72; }
+.search { height: 3.1rem; border-radius: var(--r-l); display: flex; align-items: center; gap: .85rem; padding: 0 1.1rem; }
+.search .ph { position: relative; z-index: 1; font-size: 1.05rem; color: var(--ink-faint); }
+.todo { display: flex; flex-direction: column; gap: .45rem; }
+.todo h4 { margin: 0 0 .15rem; }
+.todo li { list-style: none; display: flex; gap: .6rem; align-items: center; font-size: 1rem; }
+.todo ul { margin: 0; padding: 0; display: flex; flex-direction: column; gap: .45rem; }
+.todo .ck { width: 1.1rem; height: 1.1rem; flex: none; border-radius: 6px; border: 1.5px solid var(--edge); display: grid; place-items: center; }
+.todo .done { color: var(--ink-faint); text-decoration: line-through; }
+.todo .done .ck { background: hsl(var(--lh) 100% 70% / .35); border-color: var(--lcd-on); }
+.tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .7rem; }
+.tile { display: flex; flex-direction: column; align-items: center; gap: .45rem; min-width: 0; }
+.tile .ic { width: 3.25rem; height: 3.25rem; border-radius: 16px; display: grid; place-items: center; font-weight: 600; font-size: 1.25rem; color: #fff;
+  border: 1.5px solid hsl(var(--sh) 100% 85% / .55);
+  background: radial-gradient(circle at 35% 25%, hsl(var(--sh) 100% 82% / .9), hsl(var(--sh) 85% 52% / .7) 55%, hsl(var(--sh) 80% 32% / .85));
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.55), 0 6px 16px rgba(0,0,0,.35); }
+.tile small { font-size: .875rem; color: var(--ink-dim); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.tryit { border-radius: var(--r-xl); padding: 1rem 1.25rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: flex-end; }
+.ctl { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.ctl input[type=range] { width: 11rem; max-width: 100%; accent-color: var(--lcd-on); }
+.hint { flex: 1 1 14rem; font-size: .9375rem; color: var(--ink-faint); }
+
+/* ---------- sections ---------- */
+section.block { padding-block: 4.5rem 0; }
+.head { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 2rem; max-width: 44rem; }
+h2 { font-weight: 600; font-size: clamp(1.75rem, 3.4vw, 2.5rem); line-height: 1.12; }
+.head p { color: var(--ink-dim); font-size: 1.15rem; }
+
+.spec { border-radius: var(--r-xl); padding: .5rem 1.5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem; }
+.spec > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--edge-soft); }
+.spec > div:nth-last-child(-n+2) { border-bottom: 0; }
+.spec .tag { padding-top: .3rem; }
+.spec h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: .3rem; }
+.spec p { color: var(--ink-dim); max-width: 34rem; }
+
+.dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+.bay { border-radius: var(--r-xl); padding: 1.3rem 1.35rem 1.4rem; display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+.bay.mine { border-color: hsl(var(--lh) 100% 78% / .7); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45), 0 0 0 2px hsl(var(--lh) 100% 78% / .2), 0 0 34px hsl(var(--lh) 100% 70% / .18), 0 24px 60px hsl(calc(var(--h) + 9) 100% 4% / .55); }
+.bay .os { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.bay h3 { font-size: 1.45rem; font-weight: 600; }
+.bay .file { border-radius: var(--r-m); padding: .55rem .8rem; display: flex; flex-direction: column; gap: .15rem; }
+.bay .file b { position: relative; z-index: 1; font-family: var(--font-dot); font-weight: 700; font-size: .95rem; color: var(--lcd-on); text-shadow: 0 0 8px var(--lcd-glow); overflow-wrap: anywhere; }
+.bay .file .ind { position: relative; z-index: 1; color: hsl(var(--lh) 100% 78% / .6); }
+.bay ol { margin: 0; padding-left: 1.2rem; color: var(--ink-dim); display: flex; flex-direction: column; gap: .4rem; font-size: 1rem; }
+.bay .btn { align-self: flex-start; }
+.cmd { display: flex; align-items: center; gap: .5rem; min-width: 0; }
+.cmd code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font: .875rem/1.4 ui-monospace, "DejaVu Sans Mono", monospace; padding: .45rem .6rem; border-radius: 9px; background: var(--lcd); border: 1px solid var(--edge-soft); color: var(--ink); user-select: all; }
+.cmd button { flex: none; }
+.after { margin-top: 1.2rem; color: var(--ink-faint); font-size: .9375rem; max-width: 50rem; }
+
+/* ---------- Aqua MD ---------- */
+.md-band { margin-top: 4.5rem; border-radius: var(--r-xl); padding: clamp(1.4rem, 4vw, 2.6rem); display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1.4rem, 4vw, 3rem); align-items: center; }
+.md-copy { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+.md-copy p { color: var(--ink-dim); font-size: 1.125rem; max-width: 38rem; }
+.minidisc { width: clamp(9rem, 22vw, 13rem); aspect-ratio: 68 / 72; max-width: 100%; border-radius: 14px 14px 18px 18px; position: relative; padding: 9%;
+  border: 1.5px solid var(--edge);
+  background: linear-gradient(160deg, hsl(calc(var(--h) - 4) 100% 80% / .32), hsl(calc(var(--h) + 6) 80% 45% / .14) 50%, hsl(calc(var(--h) + 8) 70% 30% / .3));
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.5), 0 20px 40px rgba(0,0,0,.45); }
+.minidisc::before { content: ""; position: absolute; left: 12%; right: 12%; bottom: 7%; height: 13%; border-radius: 6px; background: hsl(calc(var(--h) + 7) 60% 10% / .55); border: 1px solid var(--edge-soft); }
+.disc { width: 100%; aspect-ratio: 1; border-radius: 50%; position: relative; animation: spin 6s linear infinite;
+  background: radial-gradient(circle, hsl(calc(var(--h) + 7) 60% 8%) 0 14%, hsl(var(--h) 30% 80% / .9) 14.5% 18%, transparent 18.5%),
+    conic-gradient(from 20deg, hsl(var(--lh) 100% 85% / .85), hsl(var(--h) 60% 40% / .6), hsl(calc(var(--lh) + 60) 100% 80% / .7), hsl(var(--h) 60% 35% / .6), hsl(var(--lh) 100% 85% / .85));
+  box-shadow: 0 0 0 2px hsl(var(--h) 100% 90% / .25), 0 0 30px hsl(var(--lh) 100% 70% / .25); }
+.disc::after { content: ""; position: absolute; inset: 22%; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid var(--edge-soft); }
+.foot { display: flex; justify-content: space-between; gap: 1.5rem 3rem; flex-wrap: wrap; color: var(--ink-faint); font-size: .9375rem; }
+.foot p { max-width: 40rem; }
+.foot nav { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+/* ---------- narrow screens ---------- */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .spec { grid-template-columns: minmax(0, 1fr); }
+  .spec > div:nth-last-child(2) { border-bottom: 1px solid var(--edge-soft); }
+  .dl { grid-template-columns: minmax(0, 1fr); }
+  .win.sidetabs .win-body { grid-template-columns: 3.4rem minmax(0, 1fr); }
+  .win.sidetabs .side .tab b { display: none; }
+  .win.sidetabs .side .tab { justify-content: center; padding: 0; }
+}
+@media (max-width: 640px) {
+  .w.half { grid-column: span 6; }
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .win-top .tab:not(.on):not(.plus) { display: none; }
+  .win-top .tabs .tab.on { flex: 1 1 auto; }
+  .gb.opt, .bm { display: none; }
+  .spec > div { grid-template-columns: minmax(0, 1fr); gap: .4rem; }
+  .md-band { grid-template-columns: minmax(0, 1fr); }
+  .nav a:not(.keep) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { transition: none; }
+  .ticker span, .disc { animation: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="#top" id="top"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2hlbGwiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjNmZiMmZmIi8+PHN0b3Agb2Zmc2V0PSIuNDUiIHN0b3AtY29sb3I9IiMzYTdjZTYiLz48c3RvcCBvZmZzZXQ9Ii43NSIgc3RvcC1jb2xvcj0iIzI3YjdkOCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBmN2Q5ZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZWRnZSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2Q5ZWNmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzlmZTlmMiIvPjwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb2JlIiBjeD0iLjM4IiBjeT0iLjMyIiByPSIuNzUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iLjk1Ii8+PHN0b3Agb2Zmc2V0PSIuNDUiIHN0b3AtY29sb3I9IiNiZmUyZmYiIHN0b3Atb3BhY2l0eT0iLjcyIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNWFhOGYwIiBzdG9wLW9wYWNpdHk9Ii41Ii8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJsYWJlbCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2Y0ZjhmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U2ZjNmYiIvPjwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InRpbGUiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyZDZmZDgiLz48c3RvcCBvZmZzZXQ9Ii41IiBzdG9wLWNvbG9yPSIjOGZkMGZmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMWQ0ZmIwIi8+PC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2hlZW4iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iLjMyIi8+PHN0b3Agb2Zmc2V0PSIuMyIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+PHN0b3Agb2Zmc2V0PSIuNzUiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+CiAgICA8Y2xpcFBhdGggaWQ9ImciPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjMxMiIgcj0iMTQ4Ii8+PC9jbGlwUGF0aD4KICAgIDxmaWx0ZXIgaWQ9InNvZnQiIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjYiLz48L2ZpbHRlcj4KICA8L2RlZnM+CiAgPHJlY3QgeD0iNDYiIHk9IjM0IiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MiIgcng9IjU4IiBmaWxsPSJ1cmwoI3NoZWxsKSIvPgogIDxyZWN0IHg9IjQ2IiB5PSIzNCIgd2lkdGg9IjQyMCIgaGVpZ2h0PSI0NTIiIHJ4PSI1OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2VkZ2UpIiBzdHJva2Utd2lkdGg9IjciIG9wYWNpdHk9Ii44NSIvPgogIDwhLS0gZ2xhc3MgZ2xvYmUgLS0+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMzEyIiByPSIxNDgiIGZpbGw9InVybCgjZ2xvYmUpIi8+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI2cpIiBmaWxsPSJub25lIiBzdHJva2U9IiMyNDU3YjgiIHN0cm9rZS1vcGFjaXR5PSIuMzgiIHN0cm9rZS13aWR0aD0iNSI+CiAgICA8ZWxsaXBzZSBjeD0iMjU2IiBjeT0iMzEyIiByeD0iNjIiIHJ5PSIxNDgiLz4KICAgIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIzMTIiIHJ4PSIxMTgiIHJ5PSIxNDgiLz4KICAgIDxsaW5lIHgxPSIyNTYiIHkxPSIxNjAiIHgyPSIyNTYiIHkyPSI0NjQiLz4KICAgIDxwYXRoIGQ9Ik0xMDggMzEyaDI5Nk0xMjIgMjQ0YzgwIDIyIDE4OCAyMiAyNjggME0xMjIgMzgwYzgwLTIyIDE4OC0yMiAyNjggMCIvPgogIDwvZz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIzMTIiIHI9IjE0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjc1IiBzdHJva2Utd2lkdGg9IjQiLz4KICA8ZWxsaXBzZSBjeD0iMjA2IiBjeT0iMjUwIiByeD0iNTQiIHJ5PSIzMCIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjU1IiBmaWx0ZXI9InVybCgjc29mdCkiIHRyYW5zZm9ybT0icm90YXRlKC0yOCAyMDYgMjUwKSIvPgogIDwhLS0gdGhlIGJyb3dzZXIgYmFyIChBcXVhIE1EJ3MgZGlzYyBsYWJlbCkgLS0+CiAgPHJlY3QgeD0iNzgiIHk9IjYyIiB3aWR0aD0iMzU2IiBoZWlnaHQ9Ijk4IiByeD0iMjAiIGZpbGw9InVybCgjbGFiZWwpIi8+CiAgPHJlY3QgeD0iOTYiIHk9IjgwIiB3aWR0aD0iNjIiIGhlaWdodD0iNjIiIHJ4PSIxNCIgZmlsbD0idXJsKCN0aWxlKSIvPgogIDxwYXRoIGQ9Ik0xMjcgOTd2MjhNMTEzIDExMWgyOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxyZWN0IHg9IjE3NiIgeT0iOTAiIHdpZHRoPSIyMzYiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzBkMWEzYSIvPgogIDxnIGZpbGw9IiM3ZmUzZmYiPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjIwNiIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjIzNCIgY3k9IjEwMCIgcj0iNCIvPjxjaXJjbGUgY3g9IjI0OCIgY3k9IjEwMCIgcj0iNCIvPjwvZz4KICA8cmVjdCB4PSIxNzYiIHk9IjEyMiIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IiM4ZDliYmQiLz4KICA8cmVjdCB4PSI0NiIgeT0iMzQiIHdpZHRoPSI0MjAiIGhlaWdodD0iNDUyIiByeD0iNTgiIGZpbGw9InVybCgjc2hlZW4pIi8+Cjwvc3ZnPgo=" alt=""><span>Aqua Browser</span></a>
+  <nav class="nav" aria-label="Site">
+    <a href="#inside">What’s inside</a>
+    <a href="#download" class="keep">Download</a>
+    <a href="https://github.com/Danii45/Aqua-Browser">GitHub</a>
+    <a href="https://danii45.github.io/Aqua-MD/" class="md keep">Aqua MD ↗</a>
+  </nav>
+</header>
+
+<main>
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Kubuntu · Mac · Windows · Free</p>
+        <h1 id="hero-title">A <em>glass</em> web browser</h1>
+        <p class="lede">Aqua Browser gives the web the see-through, LCD-lit look of Aqua MD. Keep Home and Work apart, build your own home page, and keep your passwords on your own computer.</p>
+        <div class="cta">
+          <a class="btn primary" id="dl-main" href="#download"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg><span id="dl-main-label">Download</span></a>
+          <a class="btn ghost" href="#download" id="dl-other">All downloads</a>
+        </div>
+        <p class="fine">Version 2.0 · runs on Mozilla’s Firefox engine (ESR)</p>
+      </div>
+      <div class="panel lcd" aria-label="Aqua Browser display">
+        <div class="inds"><span class="ind on">AQUA</span><span class="ind on">BR-02</span><span class="ind" id="ind-home">HOME</span><span class="ind" id="ind-work">WORK</span><span class="ind" id="ind-auto">AUTO</span></div>
+        <div class="big">AQUA<br>BROWSER</div>
+        <div class="sub" id="lcd-sub">BLUE · GLASS 60%</div>
+        <div class="meter" id="meter" aria-hidden="true"></div>
+        <div class="ticker" aria-hidden="true"><span>HOME AND WORK PROFILES ··· 7 COLOURS + AUTO ··· 16 HOME PAGE WIDGETS ··· PASSWORDS STAY ON YOUR COMPUTER ··· AD BLOCKING BUILT IN ··· TABS ON TOP OR DOWN THE SIDE ···</span><span>HOME AND WORK PROFILES ··· 7 COLOURS + AUTO ··· 16 HOME PAGE WIDGETS ··· PASSWORDS STAY ON YOUR COMPUTER ··· AD BLOCKING BUILT IN ··· TABS ON TOP OR DOWN THE SIDE ···</span></div>
+      </div>
+    </div>
+
+    <div class="deck">
+      <div class="win glass" id="win" role="group" aria-label="A working model of the Aqua Browser window">
+        <div class="win-top">
+          <div class="beads" aria-hidden="true"><i style="--sh:354"></i><i style="--sh:40"></i><i style="--sh:140"></i></div>
+          <div class="tabs" id="tabs-top"></div>
+        </div>
+        <div class="win-bar">
+          <span class="gb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></span>
+          <span class="gb opt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          <span class="gb opt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.05-4.95M19 5v3.5h-3.5"/></svg></span>
+          <div class="addr lcd"><span class="ind on" id="addr-ind">HOME</span><span class="url" id="url"><span class="dim">Search or type an address</span></span></div>
+          <button class="pchip" id="pchip" type="button" aria-label="Switch profile (now Home)"><i></i><span id="pchip-label">Home</span></button>
+          <span class="gb opt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg></span>
+        </div>
+        <div class="bm" id="bm" aria-hidden="true"></div>
+        <div class="win-body">
+          <div class="side" id="tabs-side" aria-hidden="true"></div>
+          <div class="page" id="page"></div>
+        </div>
+      </div>
+
+      <div class="tryit glass" aria-label="Try the settings">
+        <div class="ctl"><span class="label" id="lbl-colour">Colour</span><div class="swatches" id="swatches" role="group" aria-labelledby="lbl-colour"></div></div>
+        <div class="ctl"><span class="label" id="lbl-tabs">Tabs</span><div class="chips" role="group" aria-labelledby="lbl-tabs"><button class="chip" type="button" id="tabs-top-btn" aria-pressed="true">Along the top</button><button class="chip" type="button" id="tabs-side-btn" aria-pressed="false">Down the side</button></div></div>
+        <div class="ctl"><span class="label" id="lbl-addr">Address bar</span><div class="chips" role="group" aria-labelledby="lbl-addr"><button class="chip" type="button" id="addr-dot" aria-pressed="true">Dot matrix</button><button class="chip" type="button" id="addr-plain" aria-pressed="false">Plain</button></div></div>
+        <div class="ctl"><label class="label" for="glass">Glass</label><input type="range" id="glass" min="20" max="160" value="60"></div>
+        <p class="hint">This is a working model. Pick a colour, move the tabs, or press the <b>Home</b> chip to switch to the Work profile.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap block" id="inside" aria-labelledby="inside-title">
+    <div class="head">
+      <p class="eyebrow">What’s inside</p>
+      <h2 id="inside-title">Every part of it can be changed</h2>
+      <p>Aqua Browser is Mozilla’s Firefox engine wearing Aqua MD’s glass. The look, the home page and the profiles are all yours to set.</p>
+    </div>
+    <div class="spec glass">
+      <div><span class="tag ind on">Profiles</span><div><h3>Home and Work, kept apart</h3><p>Each profile has its own cookies, history, passwords and home page. Switch with the chip next to the address bar, and each one opens in its own window.</p></div></div>
+      <div><span class="tag ind on">Home page</span><div><h3>A home page you build</h3><p>Sixteen kinds of widget: a dot-matrix clock, weather, search, shortcuts, notes, to-do lists, a calendar, a focus timer, countdowns, news feeds and your own pictures. Drag them around and pick each one’s size.</p></div></div>
+      <div><span class="tag ind on">Vault</span><div><h3>Passwords and cards stay with you</h3><p>Aqua Browser saves and fills in your passwords and payment cards itself, with no Google account. Lock them behind a master password.</p></div></div>
+      <div><span class="tag ind on">Colour</span><div><h3>Seven colours, plus Auto</h3><p>Blue, teal, green, orange, red, pink and purple, the same seven as Aqua MD. Auto fades through all of them on a timer you choose, from ten seconds to an hour.</p></div></div>
+      <div><span class="tag ind on">Look</span><div><h3>As much glass as you like</h3><p>Set the glass, the blur and how round the corners are. Put the tabs along the top or down the side, show the address in dot-matrix or plain type, or add your own CSS.</p></div></div>
+      <div><span class="tag ind on">Ad block</span><div><h3>Ads blocked from the start</h3><p>uBlock Origin is set up the first time you open Aqua Browser, so pages load without ads and trackers.</p></div></div>
+      <div><span class="tag ind on">Engine</span><div><h3>Mozilla’s engine underneath</h3><p>Aqua Browser runs on Firefox ESR, Mozilla’s extended-support release, so websites work the way they do in Firefox.</p></div></div>
+      <div><span class="tag ind on">Import</span><div><h3>Bring your stuff over</h3><p>Import bookmarks, passwords and history from Chrome, Edge or another browser the first time you open it.</p></div></div>
+    </div>
+  </section>
+
+  <section class="wrap block" id="download" aria-labelledby="download-title">
+    <div class="head">
+      <p class="eyebrow">Download</p>
+      <h2 id="download-title">Get Aqua Browser</h2>
+      <p>Free, for 64-bit computers. Pick your system.</p>
+    </div>
+    <div class="dl">
+      <article class="bay glass" data-os="linux">
+        <div class="os"><h3>Kubuntu</h3><span class="ind on">LINUX</span></div>
+        <div class="file lcd"><span class="ind">Also Ubuntu and Debian</span><b>AquaBrowser-Linux-amd64.deb</b></div>
+        <ol>
+          <li>Open the file. Discover opens it; choose Install.</li>
+          <li>Or install it from a terminal:</li>
+        </ol>
+        <div class="cmd"><code id="cmd-deb">sudo apt install ./AquaBrowser-Linux-amd64.deb</code><button class="btn small ghost" type="button" data-copy="cmd-deb">Copy</button></div>
+        <a class="btn primary" data-file="AquaBrowser-Linux-amd64.deb" href="#">Download .deb</a>
+      </article>
+      <article class="bay glass" data-os="mac">
+        <div class="os"><h3>Mac</h3><span class="ind on">MACOS</span></div>
+        <div class="file lcd"><span class="ind">Apple Silicon and Intel</span><b>AquaBrowser-Mac.zip</b></div>
+        <ol>
+          <li>Unzip the download.</li>
+          <li>Right-click <b>Install Aqua Browser.command</b>, choose Open, then Open again.</li>
+          <li>It copies Aqua Browser to Applications and opens it.</li>
+        </ol>
+        <a class="btn primary" data-file="AquaBrowser-Mac.zip" href="#">Download for Mac</a>
+      </article>
+      <article class="bay glass" data-os="windows">
+        <div class="os"><h3>Windows</h3><span class="ind on">WIN 10 · 11</span></div>
+        <div class="file lcd"><span class="ind">No admin password needed</span><b>AquaBrowser-Windows-Setup.exe</b></div>
+        <ol>
+          <li>Run the setup.</li>
+          <li>If Windows says it protected your PC, choose More info, then Run anyway.</li>
+          <li>Aqua Browser appears in the Start menu and in Default apps.</li>
+        </ol>
+        <a class="btn primary" data-file="AquaBrowser-Windows-Setup.exe" href="#">Download for Windows</a>
+      </article>
+    </div>
+    <p class="after">Aqua Browser doesn’t update itself yet. New versions appear here and on <a href="https://github.com/Danii45/Aqua-Browser/releases">GitHub Releases</a>; installing one over the old keeps your profiles, passwords and bookmarks.</p>
+  </section>
+
+  <section class="wrap" aria-labelledby="md-title">
+    <div class="md-band glass">
+      <div class="minidisc" aria-hidden="true"><div class="disc"></div></div>
+      <div class="md-copy">
+        <p class="eyebrow">From the maker of Aqua MD</p>
+        <h2 id="md-title">The look started with a MiniDisc deck</h2>
+        <p>Aqua MD is a see-through MiniDisc deck for your desktop. It plays Spotify, your own music and the sound from your videos, with lyrics, a clock and widgets on a dot-matrix display. Aqua Browser borrows its glass, its display and its seven colours.</p>
+        <div class="cta"><a class="btn primary" href="https://danii45.github.io/Aqua-MD/">Open Aqua MD ↗</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="foot">
+    <p>Aqua Browser is built on Firefox ESR, Mozilla’s open-source browser, which is available under the Mozilla Public License 2.0. Firefox is a trademark of the Mozilla Foundation; Aqua Browser is not made or endorsed by Mozilla.</p>
+    <nav aria-label="More">
+      <a href="https://github.com/Danii45/Aqua-Browser">Source code</a>
+      <a href="https://github.com/Danii45/Aqua-Browser/releases">Releases</a>
+      <a href="https://github.com/Danii45/Aqua-Browser/issues">Report a bug</a>
+      <a href="https://danii45.github.io/Aqua-MD/">Aqua MD</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const REL = 'https://github.com/Danii45/Aqua-Browser/releases/latest/download/';
+  const COLORS = { blue: [214, 192], teal: [178, 168], green: [140, 128], orange: [26, 36], red: [354, 2], pink: [322, 316], purple: [266, 258] };
+  const ORDER = Object.keys(COLORS);
+  const root = document.documentElement;
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'style') e.style.cssText = v; else e.setAttribute(k, v); } for (const k of kids) e.append(k); return e; };
+  const hashHue = s => { let x = 0; for (const c of s) x = (x * 31 + c.charCodeAt(0)) % 360; return x; };
+
+  /* ---------- the model's content, per profile (example content) ---------- */
+  const PROFILES = {
+    Home: {
+      greet: 'Good evening', tabs: ['Home', 'Wikipedia', 'Recipes', 'Aqua MD'],
+      bm: ['Wikipedia', 'Weather', 'Maps', 'Recipes', 'Music'],
+      todo: [['Water the plants', true], ['Pick up a birthday card', false], ['Plan the weekend trip', false]],
+      tiles: ['Wikipedia', 'Aqua MD', 'Maps', 'Weather', 'Recipes', 'Music']
+    },
+    Work: {
+      greet: 'Good evening', tabs: ['Home', 'Calendar', 'Team chat', 'Docs'],
+      bm: ['Calendar', 'Mail', 'Docs', 'Tickets', 'Drive'],
+      todo: [['Send the weekly report', true], ['Review the slides', false], ['Book the meeting room', false]],
+      tiles: ['Mail', 'Calendar', 'Docs', 'Team chat', 'Tickets', 'Drive']
+    }
+  };
+  let profile = 'Home';
+  const fav = name => el('span', { class: 'fav', style: `--sh:${hashHue(name)}` }, name[0]);
+  function greeting() { const hr = new Date().getHours(); return hr < 5 ? 'Good night' : hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening'; }
+
+  function renderModel() {
+    const P = PROFILES[profile];
+    const tabsTop = $('tabs-top'), tabsSide = $('tabs-side');
+    tabsTop.replaceChildren(); tabsSide.replaceChildren();
+    P.tabs.forEach((t, i) => {
+      const mk = () => el('span', { class: 'tab' + (i === 0 ? ' on' : '') }, i === 0 ? el('span', { class: 'fav', style: `--sh:${COLORS.blue[0]}` }, '⌂') : fav(t), el('b', {}, t));
+      tabsTop.append(mk()); tabsSide.append(mk());
+    });
+    tabsTop.append(el('span', { class: 'tab plus' }, '+'));
+    $('bm').replaceChildren(...P.bm.map(b => el('span', {}, fav(b), b)));
+    $('pchip-label').textContent = profile;
+    $('pchip').setAttribute('aria-label', `Switch profile (now ${profile})`);
+    $('addr-ind').textContent = profile.toUpperCase();
+    $('ind-home').classList.toggle('on', profile === 'Home');
+    $('ind-work').classList.toggle('on', profile === 'Work');
+
+    const page = $('page');
+    page.replaceChildren(
+      el('div', { class: 'w greet' }, el('h3', {}, greeting()), el('span', { class: 'ind on' }, `${profile} profile`)),
+      el('div', { class: 'w search lcd' }, el('span', { class: 'ind on' }, 'WEB'), el('span', { class: 'ph' }, 'Search the web')),
+      el('div', { class: 'w half clock lcd' }, el('div', { class: 'inds' }, el('span', { class: 'ind on' }, 'TIME'), el('span', { class: 'ind' }, '24H')), el('div', { class: 't', id: 'clock-t' }, ''), el('div', { class: 'd', id: 'clock-d' }, '')),
+      el('div', { class: 'w half card glass todo' }, el('span', { class: 'label' }, 'To-do'),
+        el('ul', {}, ...P.todo.map(([t, done]) => el('li', { class: done ? 'done' : '' }, el('span', { class: 'ck' }, done ? '✓' : ''), t)))),
+      el('div', { class: 'w tiles' }, ...P.tiles.map(t => el('div', { class: 'tile' }, el('span', { class: 'ic', style: `--sh:${hashHue(t)}` }, t[0]), el('small', {}, t))))
+    );
+    tick();
+  }
+  function tick() {
+    const now = new Date();
+    const t = $('clock-t'), d = $('clock-d');
+    if (t) t.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    if (d) d.textContent = now.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
+  }
+  setInterval(tick, 1000 * 15);
+
+  /* ---------- colour, including Auto ---------- */
+  let colour = 'blue', autoTimer = null, autoIdx = 0;
+  const meter = $('meter');
+  ORDER.forEach(k => meter.append(el('i', { style: `--sh:${COLORS[k][0]}` })));
+  function paintColour(k) {
+    const [h, lh] = COLORS[k];
+    root.style.setProperty('--h', h); root.style.setProperty('--lh', lh);
+    [...meter.children].forEach((m, i) => m.classList.toggle('on', ORDER[i] === k));
+    $('lcd-sub').textContent = `${colour === 'auto' ? 'AUTO · ' : ''}${k.toUpperCase()} · GLASS ${$('glass').value}%`;
+  }
+  function setColour(k) {
+    colour = k;
+    clearInterval(autoTimer); autoTimer = null;
+    [...$('swatches').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === k)));
+    $('ind-auto').classList.toggle('on', k === 'auto');
+    if (k === 'auto') {
+      autoIdx = ORDER.indexOf(currentNamed);
+      const step = () => { autoIdx = (autoIdx + 1) % ORDER.length; currentNamed = ORDER[autoIdx]; paintColour(currentNamed); };
+      step(); autoTimer = setInterval(step, 4000);
+    } else { currentNamed = k; paintColour(k); }
+    try { localStorage.setItem('aqua-site-colour', k); } catch (e) {}
+  }
+  let currentNamed = 'blue';
+  for (const k of ORDER) $('swatches').append(el('button', { class: 'sw', type: 'button', 'data-c': k, title: k[0].toUpperCase() + k.slice(1), 'aria-label': k[0].toUpperCase() + k.slice(1), 'aria-pressed': 'false', style: `--sh:${COLORS[k][0]}` }));
+  $('swatches').append(el('button', { class: 'sw auto', type: 'button', 'data-c': 'auto', title: 'Auto: fades through all seven', 'aria-label': 'Auto: fades through all seven colours', 'aria-pressed': 'false' }));
+  $('swatches').addEventListener('click', e => { const b = e.target.closest('.sw'); if (b) setColour(b.dataset.c); });
+
+  /* ---------- the other controls ---------- */
+  const win = $('win');
+  const pair = (a, b, on) => { $(a).setAttribute('aria-pressed', String(on)); $(b).setAttribute('aria-pressed', String(!on)); };
+  $('tabs-top-btn').onclick = () => { win.classList.remove('sidetabs'); pair('tabs-top-btn', 'tabs-side-btn', true); };
+  $('tabs-side-btn').onclick = () => { win.classList.add('sidetabs'); pair('tabs-top-btn', 'tabs-side-btn', false); };
+  $('addr-dot').onclick = () => { win.classList.remove('plain'); pair('addr-dot', 'addr-plain', true); };
+  $('addr-plain').onclick = () => { win.classList.add('plain'); pair('addr-dot', 'addr-plain', false); };
+  $('glass').addEventListener('input', e => { root.style.setProperty('--ga', (e.target.value / 60).toFixed(2)); paintColour(currentNamed); });
+  $('pchip').onclick = () => { profile = profile === 'Home' ? 'Work' : 'Home'; renderModel(); };
+
+  /* ---------- copy buttons ---------- */
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    const code = $(b.dataset.copy);
+    try { await navigator.clipboard.writeText(code.textContent); b.textContent = 'Copied'; }
+    catch (e) { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; }
+    setTimeout(() => { b.textContent = 'Copy'; }, 1800);
+  }));
+
+  /* ---------- downloads: the right file for this computer ---------- */
+  document.querySelectorAll('[data-file]').forEach(a => { a.href = REL + a.dataset.file; });
+  const ua = navigator.userAgent, plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  const mobile = /Android|iPhone|iPad|iPod/i.test(ua);
+  const os = mobile ? '' : /Win/i.test(plat + ua) ? 'windows' : /Mac/i.test(plat + ua) ? 'mac' : /Linux|X11|CrOS/i.test(plat + ua) ? 'linux' : '';
+  const NAMES = { windows: ['Download for Windows', 'AquaBrowser-Windows-Setup.exe'], mac: ['Download for Mac', 'AquaBrowser-Mac.zip'], linux: ['Download for Kubuntu', 'AquaBrowser-Linux-amd64.deb'] };
+  if (os) {
+    $('dl-main-label').textContent = NAMES[os][0];
+    $('dl-main').href = REL + NAMES[os][1];
+    $('dl-other').textContent = 'Other systems';
+    const bay = document.querySelector(`.bay[data-os="${os}"]`);
+    if (bay) { bay.classList.add('mine'); bay.parentNode.prepend(bay); }
+  }
+
+  renderModel();
+  let saved = 'blue';
+  try { saved = localStorage.getItem('aqua-site-colour') || 'blue'; } catch (e) {}
+  setColour(COLORS[saved] || saved === 'auto' ? saved : 'blue');
+})();
+</script>
+</body>
+</html>
