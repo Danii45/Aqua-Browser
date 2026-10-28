@@ -14,7 +14,7 @@
   --aqua-h: 214; --aqua-lh: 192; --aqua-ga: 1; --aqua-blur: 16px; --aqua-rs: 1; --aqua-fade: 1.4s;
   transition: --aqua-h var(--aqua-fade) cubic-bezier(.4,0,.2,1), --aqua-lh var(--aqua-fade) cubic-bezier(.4,0,.2,1) !important;
   --a-desk: hsl(calc(var(--aqua-h) + 7) 53% 6%);
-  --a-desk-2: hsl(calc(var(--aqua-h) + 9) 60% 12%);
+  --a-desk-2: hsl(calc(var(--aqua-h) + 9) 62% 15%);
   --a-ink: hsl(var(--aqua-h) 100% 95%);
   --a-ink-dim: hsl(calc(var(--aqua-h) + 4) 34% 66%);
   --a-edge: hsl(calc(var(--aqua-h) - 5) 100% 79% / .42);
@@ -117,6 +117,12 @@ body, #navigator-toolbox-background, #navigator-toolbox, #titlebar, #TabsToolbar
   color: var(--a-ink) !important;
 }
 #navigator-toolbox { border-bottom: 0 !important; }
+/* the toolbar is a pane of tinted glass over the desk */
+#navigator-toolbox {
+  background:
+    linear-gradient(180deg, hsl(calc(var(--aqua-h) - 3) 100% 74% / calc(.11 * var(--aqua-ga))), hsl(calc(var(--aqua-h) + 4) 86% 57% / calc(.05 * var(--aqua-ga)))) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
 #navigator-toolbox, menupopup, panel, #sidebar-main, findbar, #tabbrowser-tabs { font-family: var(--a-font-body) !important; }
 :root.aqua-font-system :is(#navigator-toolbox, menupopup, panel, #sidebar-main, findbar, #tabbrowser-tabs) { font-family: system-ui, sans-serif !important; }
 

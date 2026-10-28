@@ -36,7 +36,7 @@
     const welcome = location.hash === '#welcome';
     if (welcome) main.append(welcomeCard());
     main.append(
-      h('nav.set-nav', ...[['look', 'Look'], ['tabs', 'Tabs & toolbar'], ['home', 'Home & start-up'], ['profiles', 'Profiles'], ['passwords', 'Passwords & cards'], ['privacy', 'Privacy'], ['search', 'Search'], ['advanced', 'Advanced']]
+      h('nav.set-nav', ...[['look', 'Look'], ['tabs', 'Tabs & toolbar'], ['start', 'Home & start-up'], ['profiles', 'Profiles'], ['passwords', 'Passwords & cards'], ['privacy', 'Privacy'], ['search', 'Search'], ['advanced', 'Advanced']]
         .map(([id, l]) => h('button.chip-opt', { onclick: () => document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }) }, l))),
       ...[lookCard, tabsCard, homeCard, profilesCard, passwordsCard, privacyCard, searchCard, advancedCard].map(safe));
     const target = location.hash.slice(1);
@@ -102,7 +102,7 @@
 
   /* ---------- home ---------- */
   function homeCard() {
-    return section('home', 'Home & start-up',
+    return section('start', 'Home & start-up',
       A.field('New tabs open', A.chips([['home', 'My Aqua home page'], ['blank', 'A blank page'], ['engine', 'The engine’s own new tab page']], pref('aqua.newTab', 'home'), v => set('aqua.newTab', v))),
       A.field('When the browser starts', A.chips([[3, 'Continue where I left off'], [1, 'Open the home page']], pref('browser.startup.page', 3), v => set('browser.startup.page', +v))),
       row(h('button.sbtn', { onclick: () => openTab(AquaBoot.HOME + '#edit') }, icon('edit'), 'Customize the home page')));

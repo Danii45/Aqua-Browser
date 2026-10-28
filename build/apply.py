@@ -172,10 +172,48 @@ def rebrand_omni(omni: Path):
                 changed += 1
             elif f.suffix == ".svg" and "logo" in f.name:
                 f.write_text((ROOT / "branding" / "icon.svg").read_text()); changed += 1
+    changed += replace_art(tmp)
     omni.unlink()
     pack_jar(tmp, omni)
     shutil.rmtree(tmp, ignore_errors=True)
     print(f"  rebranded {changed} files in {omni.name}")
+
+
+# Mozilla's mascot and logo artwork (the fox, "Kit") is part of its trademarks, so it's swapped for Aqua's icon.
+ART = re.compile(r"((^|[-_])(fox|kit)([-_.]|$)|mascot|puzzle-fox|^firefox\.svg$|intro-illustration)", re.I)
+
+
+def replace_art(tmp: Path):
+    n = 0
+    for f in tmp.rglob("*"):
+        if not f.is_file() or not ART.search(f.name):
+            continue
+        if f.suffix.lower() == ".svg":
+            f.write_text((ROOT / "branding" / "icon.svg").read_text()); n += 1
+        elif f.suffix.lower() in (".png", ".webp"):
+            try:
+                w, h = Image.open(f).size
+            except Exception:
+                continue
+            side = max(1, int(min(w, h) * .8))
+            im = Image.open(ICON).convert("RGBA").resize((side, side), Image.LANCZOS)
+            canvas = Image.new("RGBA", (w, h), (0, 0, 0, 0)); canvas.paste(im, ((w - side) // 2, (h - side) // 2))
+            canvas.save(f, "PNG" if f.suffix.lower() == ".png" else "WEBP"); n += 1
+    return n
+
+
+def rebrand_gre(omni: Path):
+    """The engine-wide omni.ja (toolkit pages such as the password manager) has mascot art too."""
+    if not omni.exists():
+        return
+    tmp = Path(tempfile.mkdtemp())
+    unpack_jar(omni, tmp)
+    n = replace_art(tmp)
+    if n:
+        omni.unlink()
+        pack_jar(tmp, omni)
+    shutil.rmtree(tmp, ignore_errors=True)
+    print(f"  replaced {n} mascot images in {omni.parent.name}/{omni.name}")
 
 
 WATCH = ("CustomizableUI", "AboutNewTab", "MigrationUtils", "ShellService", "SearchService", "PlacesUtils", "PrivateBrowsingUtils")
@@ -202,6 +240,7 @@ def linux(app: Path):
     add_aqua(app)
     ver = edit_application_ini(app / "application.ini")
     rebrand_omni(app / "browser" / "omni.ja")
+    rebrand_gre(app / "omni.ja")
     log_modules(app)
     icons = app / "browser" / "chrome" / "icons" / "default"
     if icons.exists():
@@ -216,6 +255,7 @@ def mac(app: Path):
     add_aqua(res)
     ver = edit_application_ini(res / "application.ini")
     rebrand_omni(res / "browser" / "omni.ja")
+    rebrand_gre(res / "omni.ja")
     log_modules(res)
     plist_path = app / "Contents" / "Info.plist"
     with open(plist_path, "rb") as f:
@@ -249,6 +289,7 @@ def windows(app: Path):
     add_aqua(app)
     ver = edit_application_ini(app / "application.ini")
     rebrand_omni(app / "browser" / "omni.ja")
+    rebrand_gre(app / "omni.ja")
     log_modules(app)
     # Mozilla's updater, maintenance service and default-browser agent would update/report as Firefox; Aqua
     # updates through its own releases instead (updates are also switched off in policies.json).
