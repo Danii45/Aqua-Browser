@@ -49,6 +49,20 @@
     if (chip) { chip.setAttribute("label", name); chip.setAttribute("tooltiptext", isPrivate ? "Private window" : `Profile: ${name}`); }
   }
 
+  // With aqua.debug on, logs which elements paint a few spots of the toolbar (for fixing the look when
+  // Mozilla changes the window's structure).
+  function debugDump() {
+    const desc = el => `${el.localName}${el.id ? "#" + el.id : ""}${el.classList && el.classList.length ? "." + [...el.classList].slice(0, 4).join(".") : ""}`;
+    const bg = el => { const cs = getComputedStyle(el); return `${cs.backgroundColor} ${cs.backgroundImage === "none" ? "" : cs.backgroundImage.slice(0, 50)}`.trim(); };
+    for (const [x, y, what] of [[innerWidth * 0.62, 16, "tab strip"], [innerWidth * 0.62, 66, "nav bar"], [innerWidth * 0.35, 66, "address bar"], [innerWidth * 0.5, 104, "bookmarks bar"]]) {
+      const stack = document.elementsFromPoint(x, y).slice(0, 14).map(e => `${desc(e)} {${bg(e)}}`);
+      console.log(`Aqua debug ${what} @${Math.round(x)},${y}: ` + stack.join(" || "));
+    }
+    const ub = document.getElementById("urlbar");
+    if (ub) console.log("Aqua debug urlbar tree: " + [ub, ...ub.querySelectorAll("*")].slice(0, 45).map(desc).join(" | "));
+  }
+  if (pref("aqua.debug", false)) setTimeout(debugDump, 7000);
+
   const P = Services.prefs;
   const obs = { observe() { applyLook(); applyColour(); } };
   P.addObserver("aqua.", obs);

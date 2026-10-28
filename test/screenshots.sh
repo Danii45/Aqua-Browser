@@ -15,6 +15,7 @@ user_pref("browser.dom.window.dump.enabled", true);
 user_pref("extensions.autoDisableScopes", 0);
 user_pref("browser.sessionstore.resume_from_crash", false);
 user_pref("datareporting.policy.firstRunURL", "");
+user_pref("aqua.debug", true);
 $prefs
 PREFS
   # Window size (the --window-size flag only works headless): xulstore keeps the main window's size.

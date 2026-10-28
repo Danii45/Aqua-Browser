@@ -38,6 +38,8 @@
   --lwt-accent-color-inactive: var(--a-desk) !important;
   --lwt-text-color: var(--a-ink) !important;
   --toolbox-bgcolor: transparent !important;
+  --toolbox-non-lwt-bgcolor: transparent !important;
+  --toolbar-non-lwt-bgcolor: transparent !important;
   --toolbox-bgcolor-inactive: transparent !important;
   --toolbox-textcolor: var(--a-ink) !important;
   --toolbox-textcolor-inactive: var(--a-ink-dim) !important;
@@ -107,7 +109,7 @@
     linear-gradient(180deg, var(--a-desk-2), var(--a-desk) 700px) !important;
   background-color: var(--a-desk) !important;
 }
-#navigator-toolbox, #titlebar, #TabsToolbar, #nav-bar, #PersonalToolbar, #browser, #sidebar-main, #sidebar-box, #toolbar-menubar {
+body, #navigator-toolbox-background, #navigator-toolbox, #titlebar, #TabsToolbar, #nav-bar, #PersonalToolbar, #browser, #sidebar-main, #sidebar-box, #toolbar-menubar, #vertical-tabs {
   background: transparent !important;
   background-color: transparent !important;
   border-color: transparent !important;
@@ -213,7 +215,7 @@
 .aqua-menu-caption { font-family: var(--a-font-label) !important; font-size: 9px !important; letter-spacing: .24em !important; color: var(--a-ink-dim) !important; opacity: 1 !important; }
 
 /* ---------- the address bar is Aqua MD's dot-matrix display ---------- */
-#urlbar-background {
+#urlbar-background, #urlbar .urlbar-background {
   background:
     radial-gradient(hsl(var(--aqua-lh) 100% 78% / .05) 1px, transparent 1.4px) 0 0 / 5px 5px,
     radial-gradient(120% 140% at 30% 0%, hsl(calc(var(--aqua-h) - 2) 79% 12%), var(--a-lcd) 60%) !important;
@@ -222,7 +224,7 @@
   box-shadow: inset 0 0 40px hsl(calc(var(--aqua-lh) + 8) 100% 62% / .09), inset 0 2px 8px rgba(0,0,0,.45), 0 0 0 3px hsl(calc(var(--aqua-h) + 6) 75% 16% / .3) !important;
   outline: none !important;
 }
-#urlbar[focused] > #urlbar-background, #urlbar[open] > #urlbar-background {
+#urlbar[focused] > #urlbar-background, #urlbar[open] > #urlbar-background, #urlbar .urlbar-background {
   border-color: var(--a-lcd-on) !important;
   box-shadow: inset 0 0 40px hsl(calc(var(--aqua-lh) + 8) 100% 62% / .12), inset 0 2px 8px rgba(0,0,0,.45), 0 0 0 3px hsl(var(--aqua-lh) 100% 78% / .2), 0 0 22px hsl(var(--aqua-lh) 100% 72% / .22) !important;
 }

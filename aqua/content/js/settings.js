@@ -27,6 +27,10 @@
     return box;
   }
 
+  function safe(make) {
+    try { return make(); }
+    catch (e) { console.error('Aqua settings section failed', e); return h('section.card.glass.thick', h('h2', make.name.replace(/Card$/, '')), h('p', 'This section hit a problem: ' + (e && e.message || e))); }
+  }
   function build() {
     main.replaceChildren();
     const welcome = location.hash === '#welcome';
@@ -34,7 +38,7 @@
     main.append(
       h('nav.set-nav', ...[['look', 'Look'], ['tabs', 'Tabs & toolbar'], ['home', 'Home & start-up'], ['profiles', 'Profiles'], ['passwords', 'Passwords & cards'], ['privacy', 'Privacy'], ['search', 'Search'], ['advanced', 'Advanced']]
         .map(([id, l]) => h('button.chip-opt', { onclick: () => document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }) }, l))),
-      lookCard(), tabsCard(), homeCard(), profilesCard(), passwordsCard(), privacyCard(), searchCard(), advancedCard());
+      ...[lookCard, tabsCard, homeCard, profilesCard, passwordsCard, privacyCard, searchCard, advancedCard].map(safe));
     const target = location.hash.slice(1);
     if (target && target !== 'welcome') setTimeout(() => { const el = document.getElementById(target); if (el) el.scrollIntoView({ block: 'start' }); }, 50);
   }
@@ -129,10 +133,15 @@
   }
 
   /* ---------- passwords & cards ---------- */
-  const token = () => Cc['@mozilla.org/security/pk11tokendb;1'].getService(Ci.nsIPK11TokenDB).getInternalKeyToken();
+  // The master password lives in the engine's key store. Reached directly where the engine allows it;
+  // otherwise Aqua shows whether one is set and hands over to the engine's own dialog.
+  const token = () => { try { const c = Cc['@mozilla.org/security/pk11tokendb;1']; return c ? c.getService(Ci.nsIPK11TokenDB).getInternalKeyToken() : null; } catch (e) { return null; } };
+  const primarySet = () => {
+    try { return ChromeUtils.importESModule('resource://gre/modules/LoginHelper.sys.mjs').LoginHelper.isPrimaryPasswordSet(); } catch (e) { return false; }
+  };
   function passwordsCard() {
     const t = token();
-    const has = t.hasPassword;
+    const has = t ? t.hasPassword : primarySet();
     const box = h('div.stack');
     const a = h('input.input', { type: 'password', placeholder: 'Current master password', autocomplete: 'off' });
     const b = h('input.input', { type: 'password', placeholder: has ? 'New master password' : 'Master password (at least 8 characters)', autocomplete: 'off' });
@@ -150,7 +159,9 @@
         build();
       } catch (e) { err.textContent = String(e.message || e); }
     };
-    box.append(has ? a : null, b, c, err, row(h('button.sbtn.primary', { onclick: save }, icon('lock'), has ? 'Change master password' : 'Set master password')));
+    if (t) box.append(has ? a : null, b, c, err, row(h('button.sbtn.primary', { onclick: save }, icon('lock'), has ? 'Change master password' : 'Set master password')));
+    else box.append(row(h('button.sbtn.primary', { onclick: () => openTab('about:preferences#privacy-logins') }, icon('lock'), has ? 'Change master password' : 'Set master password')),
+      note('This opens the engine’s password settings: tick “Use a Primary Password” there.'));
     return section('passwords', 'Passwords & cards',
       h('div.lcd-hero.lcd', h('div.inds', h('span.ind.on', 'LOCAL'), h('span.ind' + (has ? '.on' : ''), 'MASTER PW'), h('span.ind.on', 'NO GOOGLE')), h('div.big', has ? 'PROTECTED' : 'NOT LOCKED'), h('div.sub', has ? 'Encrypted with your master password' : 'Set a master password to encrypt them')),
       note('Passwords and cards are saved in this profile, on this computer. Nothing goes to a Google account. With a master password, they are encrypted and the browser asks for it once each time it starts.'),
