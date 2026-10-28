@@ -213,8 +213,9 @@ object Downloads {
         if (name.isNullOrBlank()) name = Uri.parse(r.uri).lastPathSegment
         if (name.isNullOrBlank()) name = "download"
         name = name.replace(Regex("[\\\\/:*?\"<>|]"), "_").take(120)
-        if (!name.contains('.')) MimeTypeMap.getSingleton().getExtensionFromMimeType(mime)?.let { name += ".$it" }
-        return name
+        var result: String = name ?: "download"
+        if (!result.contains('.')) MimeTypeMap.getSingleton().getExtensionFromMimeType(mime)?.let { result += ".$it" }
+        return result
     }
 
     fun save(ctx: Context, r: WebResponse) {

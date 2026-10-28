@@ -267,7 +267,7 @@ class Browser(private val ctx: Context) {
             if (!t.private) items += "Open in private tab" to { newTab(link, select = true, private = true); Unit }
             items += "Copy link" to { copy(link) }
             items += "Share link" to { share(link) }
-            items += "Add to home page" to { Aqua.home.addShortcut(t.profileId, e.title ?: e.textContent ?: Uri.parse(link).host ?: link, link); Ui.toast("Added to your home page") }
+            items += "Add to home page" to { Aqua.home.addShortcut(t.profileId, e.title ?: Uri.parse(link).host ?: link, link); Ui.toast("Added to your home page") }
         }
         if (src != null && e.type == GeckoSession.ContentDelegate.ContextElement.TYPE_IMAGE) {
             items += "Open image in new tab" to { newTab(src, select = true, private = t.private, parent = t); Unit }
