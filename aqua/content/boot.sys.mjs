@@ -1,13 +1,47 @@
 /* Aqua Browser — runs once in the main process at start-up (loaded by aqua.cfg).
    It sets Aqua's defaults, loads the Aqua look into every browser window, makes the Aqua home page the
    new-tab and home page, adds the profile chip, and sets up Home and Work profiles on first run. */
-const lazy = {};
-ChromeUtils.defineESModuleGetters(lazy, {
-  AboutNewTab: "resource:///modules/AboutNewTab.sys.mjs",
-  CustomizableUI: "resource:///modules/CustomizableUI.sys.mjs",
-  PlacesUtils: "resource://gre/modules/PlacesUtils.sys.mjs",
-  PrivateBrowsingUtils: "resource://gre/modules/PrivateBrowsingUtils.sys.mjs",
-});
+// Mozilla keeps moving its modules (many went from resource:// to moz-src:// in 2025), so each one is
+// looked up in every place it has lived, newest first, and the one that loads is remembered.
+const MODULES = {
+  AboutNewTab: ["resource:///modules/AboutNewTab.sys.mjs", "moz-src:///browser/components/newtab/AboutNewTab.sys.mjs", "resource://newtab/lib/AboutNewTab.sys.mjs"],
+  CustomizableUI: ["moz-src:///browser/components/customizableui/CustomizableUI.sys.mjs", "resource:///modules/CustomizableUI.sys.mjs"],
+  PlacesUtils: ["resource://gre/modules/PlacesUtils.sys.mjs", "moz-src:///toolkit/components/places/PlacesUtils.sys.mjs"],
+  PrivateBrowsingUtils: ["resource://gre/modules/PrivateBrowsingUtils.sys.mjs", "moz-src:///toolkit/modules/PrivateBrowsingUtils.sys.mjs"],
+  MigrationUtils: ["moz-src:///browser/components/migration/MigrationUtils.sys.mjs", "resource:///modules/MigrationUtils.sys.mjs"],
+  ShellService: ["moz-src:///browser/components/shell/ShellService.sys.mjs", "resource:///modules/ShellService.sys.mjs"],
+  SearchService: ["moz-src:///toolkit/components/search/SearchService.sys.mjs", "resource://gre/modules/SearchService.sys.mjs"],
+};
+const found = {};
+export const moduleSources = {};
+export function mod(name, pick = m => m[name]) {
+  if (name in found) return found[name];
+  const tried = [];
+  for (const url of MODULES[name] || []) {
+    try {
+      const v = pick(ChromeUtils.importESModule(url));
+      if (v) { moduleSources[name] = url; return (found[name] = v); }
+      tried.push(url + " (no " + name + ")");
+    } catch (e) { tried.push(url); }
+  }
+  throw new Error(`Aqua can't find ${name}; tried ${tried.join(", ")}`);
+}
+const lazy = new Proxy({}, { get: (_, name) => mod(name) });
+
+// The search service: Services.search until Firefox 149, a module of its own after.
+export function search() {
+  try { if (Services.search) return Services.search; } catch (e) {}
+  return mod("SearchService", m => {
+    const v = Object.values(m).find(x => x && typeof x === "object" && typeof x.getVisibleEngines === "function");
+    return v || (m.SearchService && typeof m.SearchService.getVisibleEngines === "function" ? m.SearchService : null);
+  });
+}
+function userChangeReason(s) {
+  const all = [s && s.CHANGE_REASON, s && s.constructor && s.constructor.CHANGE_REASON];
+  for (const c of all) if (c && c.USER !== undefined) return c.USER;
+  try { if (Ci.nsISearchService) return Ci.nsISearchService.CHANGE_REASON_USER; } catch (e) {}
+  return 1;
+}
 
 const HOME = "chrome://aqua/content/home.html";
 const SETTINGS = "chrome://aqua/content/settings.html";
@@ -55,6 +89,13 @@ const ENGINE_DEFAULTS = {
   "browser.compactmode.show": true,
   "layout.css.backdrop-filter.enabled": true,
   "browser.tabs.tabmanager.enabled": true,
+  // Firefox 139+ shows a "Terms of Use" box on first run that says data is sent to the maker. Aqua sends
+  // none (telemetry is off), so the box is skipped.
+  "browser.preonboarding.enabled": false,
+  "termsofuse.bypassNotification": true,
+  "datareporting.policy.dataSubmissionPolicyBypassNotification": true,
+  "sidebar.verticalTabs.dragToPinPromo.dismissed": true,
+  "browser.ml.chat.enabled": false,
 };
 
 function setDefaults(map) {
@@ -219,19 +260,29 @@ export const Home = {
     return { bar: conv(bar), other: conv(other) };
   },
   async engines() {
-    await Services.search.init();
-    const list = await Services.search.getVisibleEngines();
-    const def = await Services.search.getDefault();
+    const S = search();
+    await S.init();
+    const list = await S.getVisibleEngines();
+    const def = await S.getDefault();
     return { list: list.map(e => e.name), def: def ? def.name : (list[0] && list[0].name) };
   },
+  async setEngine(name) {
+    const S = search();
+    const e = S.getEngineByName(name);
+    if (!e) return false;
+    await S.setDefault(e, userChangeReason(S));
+    return true;
+  },
   searchURL(q, name) {
-    const e = (name && Services.search.getEngineByName(name)) || Services.search.defaultEngine;
+    const S = search();
+    const e = (name && S.getEngineByName(name)) || S.defaultEngine;
     return e.getSubmission(q).uri.spec;
   },
   // The address to ask the search engine for suggestions (the page itself does the request).
   suggestURL(q, name) {
     if (!q || !pref("browser.search.suggest.enabled", true)) return "";
-    const e = (name && Services.search.getEngineByName(name)) || Services.search.defaultEngine;
+    const S = search();
+    const e = (name && S.getEngineByName(name)) || S.defaultEngine;
     const sub = e && e.getSubmission(q, "application/x-suggestions+json");
     return sub ? sub.uri.spec : "";
   }
@@ -246,7 +297,14 @@ function onWindowOpened(win) {
     catch (e) { console.error("Aqua: could not load the look", e); }
   }, { once: true });
 }
+let reported = false;
 function onWindowReady(win) {
+  if (!reported) {
+    reported = true;
+    for (const n of ["CustomizableUI", "AboutNewTab", "PlacesUtils"]) { try { mod(n); } catch (e) { console.error(e); } }
+    try { search(); moduleSources.search = Services.search ? "Services.search" : moduleSources.SearchService; } catch (e) { console.error(e); }
+    console.log("Aqua modules", JSON.stringify(moduleSources));
+  }
   try {
     if (win.gInitialPages && !win.gInitialPages.includes(HOME)) win.gInitialPages.push(HOME);
     Services.scriptloader.loadSubScript("chrome://aqua/content/js/aqua-window.js", win);
@@ -281,7 +339,7 @@ function makeWidgets() {
 
 let started = false;
 export const AquaBoot = {
-  HOME, SETTINGS,
+  HOME, SETTINGS, mod, search, moduleSources,
   start() {
     if (started) return;
     started = true;

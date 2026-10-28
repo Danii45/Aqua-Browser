@@ -17,9 +17,11 @@ user_pref("browser.sessionstore.resume_from_crash", false);
 user_pref("datareporting.policy.firstRunURL", "");
 $prefs
 PREFS
+  # Window size (the --window-size flag only works headless): xulstore keeps the main window's size.
+  echo '{"chrome://browser/content/browser.xhtml":{"main-window":{"screenX":"0","screenY":"0","width":"1440","height":"900","sizemode":"normal"}}}' > "$P/xulstore.json"
   echo "== $name" | tee -a "$OUT/console.log"
   xvfb-run -a -s "-screen 0 1440x900x24" bash -c "
-    '$APP/firefox' --no-remote -profile '$P' --window-size 1440,900 $* >>'$OUT/console.log' 2>&1 &
+    '$APP/firefox' --no-remote -profile '$P' $* >>'$OUT/console.log' 2>&1 &
     PID=\$!
     sleep 28
     import -window root '$OUT/$name.png'

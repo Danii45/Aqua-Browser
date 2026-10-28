@@ -178,10 +178,29 @@ def rebrand_omni(omni: Path):
     print(f"  rebranded {changed} files in {omni.name}")
 
 
+WATCH = ("CustomizableUI", "AboutNewTab", "MigrationUtils", "ShellService", "SearchService", "PlacesUtils", "PrivateBrowsingUtils")
+
+
+def log_modules(res: Path):
+    """Prints where the modules Aqua uses live in this engine version (they move between versions)."""
+    for jar in (res / "omni.ja", res / "browser" / "omni.ja"):
+        if not jar.exists():
+            continue
+        try:
+            names = read_jar(jar).keys()
+        except SystemExit as e:
+            print(f"  (could not list {jar.name}: {e})"); continue
+        for n in sorted(names):
+            base = n.rsplit("/", 1)[-1]
+            if base.endswith(".sys.mjs") and base[:-8] in WATCH:
+                print(f"  module {base[:-8]}: {jar.parent.name}/{jar.name} -> {n}")
+
+
 def linux(app: Path):
     add_aqua(app)
     ver = edit_application_ini(app / "application.ini")
     rebrand_omni(app / "browser" / "omni.ja")
+    log_modules(app)
     icons = app / "browser" / "chrome" / "icons" / "default"
     if icons.exists():
         for f in icons.glob("default*.png"):
@@ -195,6 +214,7 @@ def mac(app: Path):
     add_aqua(res)
     ver = edit_application_ini(res / "application.ini")
     rebrand_omni(res / "browser" / "omni.ja")
+    log_modules(res)
     plist_path = app / "Contents" / "Info.plist"
     with open(plist_path, "rb") as f:
         pl = plistlib.load(f)
@@ -227,6 +247,7 @@ def windows(app: Path):
     add_aqua(app)
     ver = edit_application_ini(app / "application.ini")
     rebrand_omni(app / "browser" / "omni.ja")
+    log_modules(app)
     # Mozilla's updater, maintenance service and default-browser agent would update/report as Firefox; Aqua
     # updates through its own releases instead (updates are also switched off in policies.json).
     for name in ("updater.exe", "updater.ini", "update-settings.ini", "maintenanceservice.exe",

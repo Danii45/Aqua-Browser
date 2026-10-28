@@ -5,11 +5,7 @@
   const { h, icon } = A;
   const { AquaBoot, chromeWin } = AquaPage;
   const { pref, setPref, Profiles } = AquaBoot;
-  const lazy = {};
-  ChromeUtils.defineESModuleGetters(lazy, {
-    MigrationUtils: 'resource:///modules/MigrationUtils.sys.mjs',
-    ShellService: 'resource:///modules/ShellService.sys.mjs'
-  });
+  const lazy = new Proxy({}, { get: (_, name) => AquaBoot.mod(name) });
   await AquaPage.init();
   const main = document.getElementById('main');
   const set = (k, v) => setPref(k, v);
@@ -185,8 +181,7 @@
   function searchCard() {
     const sel = h('select.input', ...Object.keys(A.engines).map(n => h('option', { value: n, selected: n === A.st.search }, n)));
     sel.addEventListener('change', async () => {
-      const e = Services.search.getEngineByName(sel.value);
-      if (e) { await Services.search.setDefault(e, Ci.nsISearchService.CHANGE_REASON_USER); A.st.search = sel.value; A.toast(`Searching with ${sel.value}`); }
+      if (await AquaBoot.Home.setEngine(sel.value)) { A.st.search = sel.value; A.toast(`Searching with ${sel.value}`); }
     });
     return section('search', 'Search',
       A.field('Search engine', sel),
