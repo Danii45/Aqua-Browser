@@ -263,7 +263,7 @@ private fun AddressBar(tab: Tab?, modifier: Modifier) {
                 Icon(if (t.loading) Icons.Filled.Close else Icons.Filled.Refresh, if (t.loading) "Stop" else "Reload", tint = c.lcdOn, modifier = Modifier.size(19.dp))
             }
         } else {
-            DotText("Search or type an address", 16.sp, Modifier.weight(1f), weight = FontWeight.Bold, color = c.lcdOn.copy(alpha = .45f), glow = false)
+            DotText("Search or address", 16.sp, Modifier.weight(1f), weight = FontWeight.Bold, color = c.lcdOn.copy(alpha = .45f), glow = false)
             Icon(Icons.Filled.Search, null, tint = c.lcdOn, modifier = Modifier.padding(end = 8.dp).size(19.dp))
         }
     }
