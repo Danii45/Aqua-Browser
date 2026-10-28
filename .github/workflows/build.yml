@@ -108,9 +108,52 @@ jobs:
         if: always()
         with: { name: screenshots-windows, path: shots/ }
 
+  android:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.14.3" }
+      - name: Signing key (if one has been added to the repository's secrets)
+        env: { KEY_B64: "${{ secrets.AQUA_ANDROID_KEYSTORE }}" }
+        run: |
+          if [ -n "$KEY_B64" ]; then echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/aqua.jks"; echo "AQUA_KEYSTORE=$RUNNER_TEMP/aqua.jks" >> "$GITHUB_ENV"; echo "signing with the Aqua key"; else echo "no key in secrets: signing with a throwaway key"; fi
+      - name: Build the app
+        env: { AQUA_KEYSTORE_PASSWORD: "${{ secrets.AQUA_ANDROID_KEYSTORE_PASSWORD }}" }
+        run: bash build/ci-step.sh android bash -c "cd android && gradle --no-daemon --stacktrace assembleRelease printEngineVersion"
+      - name: Name the APKs
+        run: |
+          V="$(cat VERSION)"; mkdir -p dist
+          cp android/app/build/outputs/apk/release/app-arm64-v8a-release.apk "dist/AquaBrowser-Android-$V.apk"
+          ls -la android/app/build/outputs/apk/release/ dist/
+      - name: Enable KVM for the emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Screenshots on an Android emulator
+        continue-on-error: true
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: bash test/android-shots.sh android/app/build/outputs/apk/release/app-x86_64-release.apk shots
+      - name: Save results
+        if: always()
+        env: { TOKEN: "${{ github.token }}" }
+        run: bash build/ci-save.sh android
+      - uses: actions/upload-artifact@v4
+        with: { name: aqua-android, path: dist/*.apk }
+
   release:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'yes'
-    needs: [linux, mac, windows]
+    needs: [linux, mac, windows, android]
     runs-on: ubuntu-24.04
     permissions: { contents: write }
     steps:
@@ -126,8 +169,10 @@ jobs:
           cp out/AquaBrowser-Linux-*-amd64.deb rel/AquaBrowser-Linux-amd64.deb
           cp out/AquaBrowser-Mac-*.zip rel/AquaBrowser-Mac.zip
           cp out/AquaBrowser-Windows-*-Setup.exe rel/AquaBrowser-Windows-Setup.exe
+          cp out/AquaBrowser-Android-*.apk rel/AquaBrowser-Android.apk
           NOTES="Aqua Browser $V on Mozilla's open-source engine (Firefox ESR).
           - Kubuntu / Ubuntu / Debian: AquaBrowser-Linux-amd64.deb (open it with Discover, or sudo apt install ./AquaBrowser-Linux-amd64.deb)
           - Mac: AquaBrowser-Mac.zip (unzip, then right-click Install Aqua Browser.command → Open)
-          - Windows 10/11: AquaBrowser-Windows-Setup.exe (if SmartScreen appears: More info → Run anyway)"
+          - Windows 10/11: AquaBrowser-Windows-Setup.exe (if SmartScreen appears: More info → Run anyway)
+          - Android 8+: AquaBrowser-Android.apk (open it on the phone and allow installing from your browser or files app)"
           gh release create "v$V" rel/* --title "Aqua Browser $V" --notes "$NOTES" || gh release upload "v$V" rel/* --clobber

@@ -1,6 +1,11 @@
 *.dmg
+*.jks
 *.tar.xz
 __pycache__/
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
 dist-aqua.ico
 dist/
 shots/
