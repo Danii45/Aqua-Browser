@@ -115,14 +115,14 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v4
-        with: { gradle-version: "8.14.3" }
+        with: { gradle-version: "9.3.1" }
       - name: Signing key (if one has been added to the repository's secrets)
         env: { KEY_B64: "${{ secrets.AQUA_ANDROID_KEYSTORE }}" }
         run: |
           if [ -n "$KEY_B64" ]; then echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/aqua.jks"; echo "AQUA_KEYSTORE=$RUNNER_TEMP/aqua.jks" >> "$GITHUB_ENV"; echo "signing with the Aqua key"; else echo "no key in secrets: signing with a throwaway key"; fi
       - name: Build the app
         env: { AQUA_KEYSTORE_PASSWORD: "${{ secrets.AQUA_ANDROID_KEYSTORE_PASSWORD }}" }
-        run: bash build/ci-step.sh android bash -c "cd android && gradle --no-daemon --stacktrace assembleRelease printEngineVersion"
+        run: bash build/ci-step.sh android bash -c "cd android && gradle --no-daemon --stacktrace assembleRelease"
       - name: Name the APKs
         run: |
           V="$(cat VERSION)"; mkdir -p dist

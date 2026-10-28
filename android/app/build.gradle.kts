@@ -1,8 +1,5 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -11,7 +8,7 @@ val keystore: String? = System.getenv("AQUA_KEYSTORE")?.takeIf { file(it).exists
 
 android {
     namespace = "app.aquabrowser.android"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "app.aquabrowser.android"
@@ -57,10 +54,6 @@ android {
     }
 }
 
-kotlin {
-    compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
-}
-
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.12.01"))
     implementation("androidx.compose.ui:ui")
@@ -73,13 +66,4 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     implementation("org.mozilla.geckoview:geckoview:+")
-}
-
-// Prints the GeckoView version the build picked, so it shows in the build log.
-tasks.register("printEngineVersion") {
-    doLast {
-        val v = configurations.getByName("releaseRuntimeClasspath").resolvedConfiguration.resolvedArtifacts
-            .firstOrNull { it.moduleVersion.id.group == "org.mozilla.geckoview" }?.moduleVersion?.id?.version
-        println("GeckoView version: $v")
-    }
 }
