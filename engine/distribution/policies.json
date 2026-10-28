@@ -47,6 +47,7 @@
         "default_area": "menupanel"
       }
     },
-    "SkipTermsOfUse": true
+    "SkipTermsOfUse": true,
+    "DisableFirefoxAccounts": true
   }
 }

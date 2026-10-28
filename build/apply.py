@@ -194,6 +194,8 @@ def log_modules(res: Path):
             base = n.rsplit("/", 1)[-1]
             if base.endswith(".sys.mjs") and base[:-8] in WATCH:
                 print(f"  module {base[:-8]}: {jar.parent.name}/{jar.name} -> {n}")
+            elif re.search(r"(fox|kit|mascot|illustration)", base, re.I) and re.search(r"\.(svg|png|webp|avif)$", base, re.I):
+                print(f"  art {jar.parent.name}/{jar.name} -> {n}")
 
 
 def linux(app: Path):

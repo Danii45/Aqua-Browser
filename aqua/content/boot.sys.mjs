@@ -335,6 +335,14 @@ function makeWidgets() {
       onCommand(e) { const w = e.target.ownerGlobal; if (w.AquaUI) w.AquaUI.profileMenu(e.target); }
     });
   } catch (e) { console.error("Aqua: profile button", e); }
+  // Once per profile: take out Firefox's flexible spaces around the address bar, so the LCD gets the room.
+  try {
+    if (!pref("aqua.layoutDone", false)) {
+      const CUI = lazy.CustomizableUI;
+      for (const id of CUI.getWidgetIdsInArea(CUI.AREA_NAVBAR)) if (id.startsWith("customizableui-special-spring")) CUI.removeWidgetFromArea(id);
+      setPref("aqua.layoutDone", true);
+    }
+  } catch (e) { console.error("Aqua: toolbar layout", e); }
 }
 
 let started = false;
