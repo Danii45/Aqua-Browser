@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Aqua Browser</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Aqua Browser: a glass web browser in the style of Aqua MD, for Kubuntu, Mac and Windows. Home and Work profiles, a home page you build, passwords that stay on your computer.">
+<meta name="description" content="Aqua Browser: a glass web browser in the style of Aqua MD, for Kubuntu, Mac, Windows and Android. Home and Work profiles, a home page you build, passwords that stay on your computer.">
 <link rel="icon" type="image/svg+xml" href="__ICON__">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -218,7 +218,8 @@ h2 { font-weight: 600; font-size: clamp(1.75rem, 3.4vw, 2.5rem); line-height: 1.
 .spec h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: .3rem; }
 .spec p { color: var(--ink-dim); max-width: 34rem; }
 
-.dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+.dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; }
+@media (max-width: 1180px) { .dl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .bay { border-radius: var(--r-xl); padding: 1.3rem 1.35rem 1.4rem; display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
 .bay.mine { border-color: hsl(var(--lh) 100% 78% / .7); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.45), 0 0 0 2px hsl(var(--lh) 100% 78% / .2), 0 0 34px hsl(var(--lh) 100% 70% / .18), 0 24px 60px hsl(calc(var(--h) + 9) 100% 4% / .55); }
 .bay .os { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
@@ -297,7 +298,7 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
   <section class="wrap hero" aria-labelledby="hero-title">
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Kubuntu · Mac · Windows · Free</p>
+        <p class="eyebrow">Kubuntu · Mac · Windows · Android · Free</p>
         <h1 id="hero-title">A <em>glass</em> web browser</h1>
         <p class="lede">Aqua Browser gives the web the see-through, LCD-lit look of Aqua MD. Keep Home and Work apart, build your own home page, and keep your passwords on your own computer.</p>
         <div class="cta">
@@ -311,7 +312,7 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
         <div class="big">AQUA<br>BROWSER</div>
         <div class="sub" id="lcd-sub">BLUE · GLASS 60%</div>
         <div class="meter" id="meter" aria-hidden="true"></div>
-        <div class="ticker" aria-hidden="true"><span>HOME AND WORK PROFILES ··· 7 COLOURS + AUTO ··· 16 HOME PAGE WIDGETS ··· PASSWORDS STAY ON YOUR COMPUTER ··· AD BLOCKING BUILT IN ··· TABS ON TOP OR DOWN THE SIDE ···</span><span>HOME AND WORK PROFILES ··· 7 COLOURS + AUTO ··· 16 HOME PAGE WIDGETS ··· PASSWORDS STAY ON YOUR COMPUTER ··· AD BLOCKING BUILT IN ··· TABS ON TOP OR DOWN THE SIDE ···</span></div>
+        <div class="ticker" aria-hidden="true"><span>HOME AND WORK PROFILES ··· 7 COLOURS + AUTO ··· 16 HOME PAGE WIDGETS ··· PASSWORDS STAY ON YOUR COMPUTER ··· AD BLOCKING BUILT IN ··· TABS ON TOP OR DOWN THE SIDE ··· NOW ON ANDROID ···</span><span>HOME AND WORK PROFILES ··· 7 COLOURS + AUTO ··· 16 HOME PAGE WIDGETS ··· PASSWORDS STAY ON YOUR COMPUTER ··· AD BLOCKING BUILT IN ··· TABS ON TOP OR DOWN THE SIDE ··· NOW ON ANDROID ···</span></div>
       </div>
     </div>
 
@@ -359,7 +360,7 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
       <div><span class="tag ind on">Colour</span><div><h3>Seven colours, plus Auto</h3><p>Blue, teal, green, orange, red, pink and purple, the same seven as Aqua MD. Auto fades through all of them on a timer you choose, from ten seconds to an hour.</p></div></div>
       <div><span class="tag ind on">Look</span><div><h3>As much glass as you like</h3><p>Set the glass, the blur and how round the corners are. Put the tabs along the top or down the side, show the address in dot-matrix or plain type, or add your own CSS.</p></div></div>
       <div><span class="tag ind on">Ad block</span><div><h3>Ads blocked from the start</h3><p>uBlock Origin is set up the first time you open Aqua Browser, so pages load without ads and trackers.</p></div></div>
-      <div><span class="tag ind on">Engine</span><div><h3>Mozilla’s engine underneath</h3><p>Aqua Browser runs on Firefox ESR, Mozilla’s extended-support release, so websites work the way they do in Firefox.</p></div></div>
+      <div><span class="tag ind on">Engine</span><div><h3>Mozilla’s engine underneath</h3><p>On computers Aqua Browser runs on Firefox ESR, Mozilla’s extended-support release; on Android it runs on GeckoView, the same engine as Firefox for Android. Websites work the way they do in Firefox.</p></div></div>
       <div><span class="tag ind on">Import</span><div><h3>Bring your stuff over</h3><p>Import bookmarks, passwords and history from Chrome, Edge or another browser the first time you open it.</p></div></div>
     </div>
   </section>
@@ -368,7 +369,7 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
     <div class="head">
       <p class="eyebrow">Download</p>
       <h2 id="download-title">Get Aqua Browser</h2>
-      <p>Free, for 64-bit computers. Pick your system.</p>
+      <p>Free, for 64-bit computers, phones and tablets. Pick your system.</p>
     </div>
     <div class="dl">
       <article class="bay glass" data-os="linux">
@@ -401,6 +402,16 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
         </ol>
         <a class="btn primary" data-file="AquaBrowser-Windows-Setup.exe" href="#">Download for Windows</a>
       </article>
+      <article class="bay glass" data-os="android">
+        <div class="os"><h3>Android</h3><span class="ind on">PHONE · TABLET</span></div>
+        <div class="file lcd"><span class="ind">Android 8 or newer, 64-bit</span><b>AquaBrowser-Android.apk</b></div>
+        <ol>
+          <li>Open the download on your phone or tablet.</li>
+          <li>If Android asks, allow your browser or Files app to install apps, then tap Install.</li>
+          <li>Aqua Browser can be your default browser in Settings → Apps → Default apps.</li>
+        </ol>
+        <a class="btn primary" data-file="AquaBrowser-Android.apk" href="#">Download for Android</a>
+      </article>
     </div>
     <p class="after">Aqua Browser doesn’t update itself yet. New versions appear here and on <a href="https://github.com/Danii45/Aqua-Browser/releases">GitHub Releases</a>; installing one over the old keeps your profiles, passwords and bookmarks.</p>
   </section>
@@ -420,7 +431,7 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
 
 <footer class="wrap">
   <div class="foot">
-    <p>Aqua Browser is built on Firefox ESR, Mozilla’s open-source browser, which is available under the Mozilla Public License 2.0. Firefox is a trademark of the Mozilla Foundation; Aqua Browser is not made or endorsed by Mozilla.</p>
+    <p>Aqua Browser is built on Firefox ESR and GeckoView, Mozilla’s open-source browser and engine, which are available under the Mozilla Public License 2.0. Firefox is a trademark of the Mozilla Foundation; Aqua Browser is not made or endorsed by Mozilla.</p>
     <nav aria-label="More">
       <a href="https://github.com/Danii45/Aqua-Browser">Source code</a>
       <a href="https://github.com/Danii45/Aqua-Browser/releases">Releases</a>
@@ -542,9 +553,9 @@ footer { margin-top: 4.5rem; padding-block: 2rem 2.5rem; border-top: 1px solid v
   /* ---------- downloads: the right file for this computer ---------- */
   document.querySelectorAll('[data-file]').forEach(a => { a.href = REL + a.dataset.file; });
   const ua = navigator.userAgent, plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
-  const mobile = /Android|iPhone|iPad|iPod/i.test(ua);
-  const os = mobile ? '' : /Win/i.test(plat + ua) ? 'windows' : /Mac/i.test(plat + ua) ? 'mac' : /Linux|X11|CrOS/i.test(plat + ua) ? 'linux' : '';
-  const NAMES = { windows: ['Download for Windows', 'AquaBrowser-Windows-Setup.exe'], mac: ['Download for Mac', 'AquaBrowser-Mac.zip'], linux: ['Download for Kubuntu', 'AquaBrowser-Linux-amd64.deb'] };
+  const android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+  const os = android ? 'android' : ios ? '' : /Win/i.test(plat + ua) ? 'windows' : /Mac/i.test(plat + ua) ? 'mac' : /Linux|X11|CrOS/i.test(plat + ua) ? 'linux' : '';
+  const NAMES = { windows: ['Download for Windows', 'AquaBrowser-Windows-Setup.exe'], mac: ['Download for Mac', 'AquaBrowser-Mac.zip'], linux: ['Download for Kubuntu', 'AquaBrowser-Linux-amd64.deb'], android: ['Download for Android', 'AquaBrowser-Android.apk'] };
   if (os) {
     $('dl-main-label').textContent = NAMES[os][0];
     $('dl-main').href = REL + NAMES[os][1];

@@ -1,6 +1,6 @@
 # Aqua Browser
 
-A glass web browser in the style of [Aqua MD](https://danii45.github.io/Aqua-MD/), for Kubuntu, Mac and Windows.
+A glass web browser in the style of [Aqua MD](https://danii45.github.io/Aqua-MD/), for Kubuntu, Mac, Windows and Android.
 
 **Website and downloads:** https://danii45.github.io/Aqua-Browser/
 
@@ -33,11 +33,29 @@ To publish a release, run the workflow by hand with **release = yes**. Each rele
 | Kubuntu / Ubuntu / Debian | `AquaBrowser-Linux-amd64.deb` |
 | Mac (Apple Silicon and Intel) | `AquaBrowser-Mac.zip` |
 | Windows 10 / 11 | `AquaBrowser-Windows-Setup.exe` |
+| Android 8+ (phones and tablets) | `AquaBrowser-Android.apk` |
+
+## Android
+
+The Android app (`android/`) is a Kotlin and Jetpack Compose app built on **GeckoView**, Mozilla's Android engine (the one inside Firefox for Android).
+
+- Home and Work profiles each get their own GeckoView context: cookies, site data, tabs, home page, history and colour.
+- Saved passwords and cards live in an AES-256-GCM file whose key is kept in the phone's hardware key store. Fingerprint or screen lock is needed before they're shown or filled.
+- Ad and tracker blocking come from the engine's own lists.
+- GitHub Actions builds it with Gradle, then runs it on an Android emulator and takes screenshots.
+
+To keep updates installable, add two repository secrets (Settings → Secrets and variables → Actions):
+
+- `AQUA_ANDROID_KEYSTORE`: the signing key file, base64-encoded.
+- `AQUA_ANDROID_KEYSTORE_PASSWORD`: its password.
+
+Without them, each build is signed with a throwaway key, and you have to uninstall before installing a newer build.
 
 ## Layout
 
 ```
 aqua/          the Aqua interface (window styling, home page, settings), served as chrome://aqua/
+android/       the Android app (Kotlin, Jetpack Compose, GeckoView)
 engine/        start-up hook (aqua.cfg), its pref file, and default policies
 branding/      the icon
 build/         apply.py, make-deb.sh, make-mac.sh, windows/installer.nsi, site.py

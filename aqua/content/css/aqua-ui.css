@@ -150,6 +150,12 @@ input[type=range].slider { -webkit-appearance: none; appearance: none; width: 10
 input[type=range].slider::-webkit-slider-runnable-track { height: 6px; border-radius: 4px; background: linear-gradient(90deg, hsl(var(--h) 100% 62%), var(--lcd-on)) 0 / var(--p, 50%) 100% no-repeat, hsl(calc(var(--h) + 6) 100% 12% / .6); box-shadow: inset 0 0 0 1px hsl(calc(var(--h) - 5) 100% 79% / .25); }
 input[type=range].slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.1rem; height: 1.1rem; margin-top: -6px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, hsl(calc(var(--h) - 7) 100% 87%) 55%, hsl(var(--h) 78% 72%)); box-shadow: 0 2px 6px rgba(0,0,0,.4); }
 input[type=range].slider.hue::-webkit-slider-runnable-track { background: linear-gradient(90deg, hsl(0 85% 60%), hsl(60 85% 60%), hsl(120 85% 55%), hsl(180 85% 55%), hsl(240 85% 65%), hsl(300 85% 62%), hsl(360 85% 60%)); }
+/* the same sliders in Mozilla's engine */
+input[type=range].slider::-moz-range-track { height: 6px; border-radius: 4px; background: hsl(calc(var(--h) + 6) 100% 12% / .6); box-shadow: inset 0 0 0 1px hsl(calc(var(--h) - 5) 100% 79% / .25); }
+input[type=range].slider::-moz-range-progress { height: 6px; border-radius: 4px; background: linear-gradient(90deg, hsl(var(--h) 100% 62%), var(--lcd-on)); }
+input[type=range].slider::-moz-range-thumb { width: 1.1rem; height: 1.1rem; border: 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, hsl(calc(var(--h) - 7) 100% 87%) 55%, hsl(var(--h) 78% 72%)); box-shadow: 0 2px 6px rgba(0,0,0,.4); }
+input[type=range].slider.hue::-moz-range-track { background: linear-gradient(90deg, hsl(0 85% 60%), hsl(60 85% 60%), hsl(120 85% 55%), hsl(180 85% 55%), hsl(240 85% 65%), hsl(300 85% 62%), hsl(360 85% 60%)); }
+input[type=range].slider.hue::-moz-range-progress { background: transparent; }
 
 /* Colour swatches, as in Aqua MD; "Auto" is all of them. */
 .swatches { display: flex; flex-wrap: wrap; gap: .55rem; }
