@@ -9,7 +9,26 @@ on:
         description: "Publish these builds as a GitHub release (yes/no)"
         default: "no"
 
+permissions: { contents: write }
+
 jobs:
+  site:
+    # GitHub Pages serves the gh-pages branch; this copies docs/ (built from site/ by build/site.py) there.
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish the website
+        env: { TOKEN: "${{ github.token }}" }
+        run: |
+          python3 build/site.py
+          cd docs
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Website from ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+
   linux:
     runs-on: ubuntu-24.04
     steps:
@@ -24,11 +43,15 @@ jobs:
           mkdir -p work && tar -xf engine.tar.xz -C work
           grep -E "^Version" work/firefox/application.ini
       - name: Put Aqua on top
-        run: python3 build/apply.py linux work/firefox
+        run: bash build/ci-step.sh apply python3 build/apply.py linux work/firefox
       - name: Package .deb
-        run: bash build/make-deb.sh work/firefox
+        run: bash build/ci-step.sh deb bash build/make-deb.sh work/firefox
       - name: Screenshots
-        run: bash test/screenshots.sh "$PWD/work/firefox" shots
+        run: bash build/ci-step.sh screenshots bash test/screenshots.sh "$PWD/work/firefox" shots
+      - name: Save results
+        if: always()
+        env: { TOKEN: "${{ github.token }}" }
+        run: bash build/ci-save.sh linux
       - uses: actions/upload-artifact@v4
         with: { name: aqua-linux, path: dist/*.deb }
       - uses: actions/upload-artifact@v4
@@ -44,7 +67,11 @@ jobs:
       - name: Get the engine (Mozilla's Firefox ESR, official build)
         run: curl -fsSL -o engine.dmg "https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=osx&lang=en-US"
       - name: Build Aqua Browser.app
-        run: bash build/make-mac.sh engine.dmg
+        run: bash build/ci-step.sh mac bash build/make-mac.sh engine.dmg
+      - name: Save results
+        if: always()
+        env: { TOKEN: "${{ github.token }}" }
+        run: bash build/ci-save.sh mac
       - uses: actions/upload-artifact@v4
         with: { name: aqua-mac, path: dist/*.zip }
 
@@ -64,38 +91,17 @@ jobs:
           7z x -y -owork engine-setup.exe >/dev/null
           grep -E "^Version" work/core/application.ini
       - name: Put Aqua on top
-        run: python build/apply.py windows work/core
-      - name: Aqua icon and name on the programs
-        run: |
-          V="$(cat VERSION)"
-          # Mozilla's signature would no longer match once the icon changes, so take it off first.
-          ST="$(ls /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.*/x64/signtool.exe 2>/dev/null | tail -1)"
-          for exe in work/core/firefox.exe work/core/private_browsing.exe; do
-            [ -f "$exe" ] || continue
-            [ -n "$ST" ] && "$ST" remove //s "$exe" || true
-            ./rcedit.exe "$exe" --set-icon dist-aqua.ico \
-              --set-version-string ProductName "Aqua Browser" --set-version-string FileDescription "Aqua Browser" \
-              --set-version-string CompanyName "Aqua Browser" --set-version-string InternalName "Aqua Browser" \
-              --set-version-string LegalTrademarks "" --set-product-version "$V"
-          done
-      - name: Build the installer
-        run: |
-          V="$(cat VERSION)"; mkdir -p dist
-          "/c/Program Files (x86)/NSIS/makensis.exe" -V2 \
-            "-DSRC=$(cygpath -w "$PWD/work/core")" "-DOUTFILE=$(cygpath -w "$PWD/dist/AquaBrowser-Windows-$V-Setup.exe")" \
-            "-DVERSION=$V" "-DICON=$(cygpath -w "$PWD/dist-aqua.ico")" "$(cygpath -w "$PWD/build/windows/installer.nsi")"
-          ls -la dist
-      - name: Install it (silently) and check
-        run: |
-          ./dist/AquaBrowser-Windows-*-Setup.exe //S
-          sleep 5
-          ls "$LOCALAPPDATA/Programs/Aqua Browser/" | head -40
-          test -f "$LOCALAPPDATA/Programs/Aqua Browser/firefox.exe"
-          test -f "$LOCALAPPDATA/Programs/Aqua Browser/aqua.cfg"
+        run: bash build/ci-step.sh apply python build/apply.py windows work/core
+      - name: Icon, installer, and a test install
+        run: bash build/ci-step.sh installer bash build/windows/make-win.sh work/core
       - name: Screenshots
         continue-on-error: true
         shell: pwsh
         run: pwsh test/screenshots-windows.ps1 "$env:LOCALAPPDATA\Programs\Aqua Browser\firefox.exe" shots
+      - name: Save results
+        if: always()
+        env: { TOKEN: "${{ github.token }}" }
+        run: bash build/ci-save.sh windows
       - uses: actions/upload-artifact@v4
         with: { name: aqua-windows, path: dist/*.exe }
       - uses: actions/upload-artifact@v4

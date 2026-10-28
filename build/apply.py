@@ -72,22 +72,57 @@ BRAND_FTL = {
 TRADEMARK = "Aqua Browser is built on Mozilla’s open-source browser engine. Firefox is a trademark of the Mozilla Foundation; Aqua Browser is not made or endorsed by Mozilla."
 
 
+def read_jar(jar: Path):
+    """Reads a zip/jar into {name: bytes}. Mozilla 'optimizes' omni.ja by moving the central directory to the
+    front of the file, which trips up unzip, Python's zipfile and some 7-Zips, so this reads the offsets itself:
+    as written (Mozilla's layout), or shifted by any bytes stuck on the front (ordinary zips)."""
+    import struct, zlib
+    data = jar.read_bytes()
+    eocd = data.rfind(b"PK\x05\x06")
+    if eocd < 0:
+        raise SystemExit(f"{jar} is not a zip file")
+    _, _, _, _, total, cd_size, cd_off, _ = struct.unpack("<IHHHHIIH", data[eocd:eocd + 22])
+    shift = 0
+    if data[cd_off:cd_off + 4] != b"PK\x01\x02":
+        shift = eocd - cd_size - cd_off
+        if data[cd_off + shift:cd_off + shift + 4] != b"PK\x01\x02":
+            raise SystemExit(f"{jar}: can't find its central directory")
+    out, p = {}, cd_off + shift
+    for _ in range(total):
+        (sig, _, _, flags, method, _, _, _, csize, usize, nlen, xlen, clen, _, _, _, lho) = struct.unpack("<IHHHHHHIIIHHHHHII", data[p:p + 46])
+        name = data[p + 46:p + 46 + nlen].decode("utf-8" if flags & 0x800 else "cp437")
+        p += 46 + nlen + xlen + clen
+        for off in (lho, lho + shift):
+            if data[off:off + 4] == b"PK\x03\x04":
+                break
+        else:
+            raise SystemExit(f"{jar}: bad entry {name}")
+        lnlen, lxlen = struct.unpack("<HH", data[off + 26:off + 30])
+        raw = data[off + 30 + lnlen + lxlen: off + 30 + lnlen + lxlen + csize]
+        if method == 0:
+            body = raw
+        elif method == 8:
+            body = zlib.decompress(raw, -15)
+        else:
+            raise SystemExit(f"{jar}: {name} uses unsupported compression {method}")
+        out[name] = body
+    return out
+
+
 def unpack_jar(jar: Path, dest: Path):
-    # Mozilla's jars are zip files with the directory at the front; unzip and 7-Zip both cope.
-    if shutil.which("unzip"):
-        r = subprocess.run(["unzip", "-q", "-o", str(jar), "-d", str(dest)])
-        if r.returncode <= 1:  # 1 = warnings only
-            return
-    if shutil.which("7z"):
-        subprocess.run(["7z", "x", "-y", f"-o{dest}", str(jar)], check=True, stdout=subprocess.DEVNULL)
-        return
-    sys.exit(f"could not unpack {jar}: needs unzip or 7z")
+    for name, body in read_jar(jar).items():
+        if name.endswith("/"):
+            (dest / name).mkdir(parents=True, exist_ok=True)
+            continue
+        target = dest / name
+        if not target.resolve().is_relative_to(dest.resolve()):
+            raise SystemExit(f"{jar}: unsafe path {name}")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(body)
 
 
 def pack_jar(src: Path, jar: Path):
-    if shutil.which("zip"):
-        subprocess.run(["zip", "-q", "-r", "-9", "-X", "-D", str(jar), "."], cwd=src, check=True)
-        return
+    # A plain zip: Firefox reads ordinary zips as well as its own optimized ones.
     import zipfile
     with zipfile.ZipFile(jar, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         for f in sorted(src.rglob("*")):
