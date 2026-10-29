@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1024" height="1024">
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6fb2ff"/><stop offset=".45" stop-color="#3a7ce6"/><stop offset=".75" stop-color="#27b7d8"/><stop offset="1" stop-color="#0f7d9e"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9ecff"/><stop offset="1" stop-color="#9fe9f2"/></linearGradient>
+    <radialGradient id="globe" cx=".38" cy=".32" r=".75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset=".45" stop-color="#bfe2ff" stop-opacity=".72"/><stop offset="1" stop-color="#5aa8f0" stop-opacity=".5"/>
+    </radialGradient>
+    <linearGradient id="label" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e6f3fb"/></linearGradient>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2d6fd8"/><stop offset=".5" stop-color="#8fd0ff"/><stop offset="1" stop-color="#1d4fb0"/></linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".32"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient>
+    <clipPath id="g"><circle cx="256" cy="312" r="148"/></clipPath>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect x="46" y="34" width="420" height="452" rx="58" fill="url(#shell)"/>
+  <rect x="46" y="34" width="420" height="452" rx="58" fill="none" stroke="url(#edge)" stroke-width="7" opacity=".85"/>
+  <!-- glass globe -->
+  <circle cx="256" cy="312" r="148" fill="url(#globe)"/>
+  <g clip-path="url(#g)" fill="none" stroke="#2457b8" stroke-opacity=".38" stroke-width="5">
+    <ellipse cx="256" cy="312" rx="62" ry="148"/>
+    <ellipse cx="256" cy="312" rx="118" ry="148"/>
+    <line x1="256" y1="160" x2="256" y2="464"/>
+    <path d="M108 312h296M122 244c80 22 188 22 268 0M122 380c80-22 188-22 268 0"/>
+  </g>
+  <circle cx="256" cy="312" r="148" fill="none" stroke="#ffffff" stroke-opacity=".75" stroke-width="4"/>
+  <ellipse cx="206" cy="250" rx="54" ry="30" fill="#fff" opacity=".55" filter="url(#soft)" transform="rotate(-28 206 250)"/>
+  <!-- the browser bar (Aqua MD's disc label) -->
+  <rect x="78" y="62" width="356" height="98" rx="20" fill="url(#label)"/>
+  <rect x="96" y="80" width="62" height="62" rx="14" fill="url(#tile)"/>
+  <path d="M127 97v28M113 111h28" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+  <rect x="176" y="90" width="236" height="20" rx="10" fill="#0d1a3a"/>
+  <g fill="#7fe3ff"><circle cx="192" cy="100" r="4"/><circle cx="206" cy="100" r="4"/><circle cx="220" cy="100" r="4"/><circle cx="234" cy="100" r="4"/><circle cx="248" cy="100" r="4"/></g>
+  <rect x="176" y="122" width="150" height="12" rx="6" fill="#8d9bbd"/>
+  <rect x="46" y="34" width="420" height="452" rx="58" fill="url(#sheen)"/>
+</svg>
