@@ -48,17 +48,35 @@ def add_aqua(res: Path):
 
 
 def edit_application_ini(path: Path):
+    """Aqua's identity file. Firefox's launcher normally uses the identity compiled into it (so an edited
+    application.ini on its own does nothing); it reads a file only when XUL_APP_FILE (or "-app <file>")
+    points at one. Aqua's launchers point it at browser/application.ini, written here.
+
+    It keeps Firefox's name, so websites (Google sign-in included) see Firefox, but gets:
+      * Profile=AquaBrowser: its own profile folder, apart from any Firefox on the computer
+        (~/.aquabrowser on Linux, ~/Library/Application Support/AquaBrowser on Mac, %APPDATA%\\AquaBrowser on Windows);
+      * RemotingName=aqua-browser: its own windows (not merged with a running Firefox) and taskbar group.
+    The top-level application.ini is left as Mozilla shipped it (the crash reporter and updater read it)."""
     cp = configparser.RawConfigParser()
     cp.optionxform = str
     cp.read(path)
-    cp.set("App", "Vendor", "Aqua")
-    cp.set("App", "Name", "AquaBrowser")
+    cp.set("App", "Profile", "AquaBrowser")
     cp.set("App", "RemotingName", "aqua-browser")
     if cp.has_section("Crash Reporter"):
         cp.set("Crash Reporter", "Enabled", "0")
-    with open(path, "w") as f:
+    out = path.parent / "browser" / "application.ini"
+    with open(out, "w") as f:
         cp.write(f, space_around_delimiters=False)
     return cp.get("App", "Version", fallback="?")
+
+
+MAC_LAUNCHER = """#!/bin/sh
+# Starts Aqua Browser with its own identity file, so it keeps its own profiles
+# (~/Library/Application Support/AquaBrowser) instead of sharing Firefox's.
+DIR="$(cd "$(dirname "$0")" && pwd)"
+export XUL_APP_FILE="$DIR/../Resources/browser/application.ini"
+exec "$DIR/firefox" "$@"
+"""
 
 
 BRAND_FTL = {
@@ -260,7 +278,11 @@ def mac(app: Path):
     plist_path = app / "Contents" / "Info.plist"
     with open(plist_path, "rb") as f:
         pl = plistlib.load(f)
+    launcher = app / "Contents" / "MacOS" / "aqua-browser"
+    launcher.write_text(MAC_LAUNCHER)
+    launcher.chmod(0o755)
     pl.update({
+        "CFBundleExecutable": "aqua-browser",
         "CFBundleName": "Aqua Browser",
         "CFBundleDisplayName": "Aqua Browser",
         "CFBundleIdentifier": "app.aquabrowser.browser2",

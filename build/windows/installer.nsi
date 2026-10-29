@@ -7,6 +7,8 @@ SetCompressor /SOLID lzma
 !define APP "Aqua Browser"
 !define KEY "AquaBrowser"
 !define EXE "firefox.exe"
+; Aqua's identity file (its own profile folder, %APPDATA%\AquaBrowser). "-app <file>" must be the first argument.
+!define APPARG '-app "$INSTDIR\browser\application.ini"'
 !define UNINSTKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${KEY}"
 Name "${APP}"
 OutFile "${OUTFILE}"
@@ -19,6 +21,7 @@ RequestExecutionLevel user
 !define MUI_WELCOMEPAGE_TEXT "A glass web browser in the style of Aqua MD, built on Mozilla's open-source engine.$\r$\n$\r$\nIf Aqua Browser is open, close it before you continue."
 !define MUI_FINISHPAGE_RUN "$INSTDIR\${EXE}"
 !define MUI_FINISHPAGE_RUN_TEXT "Open Aqua Browser now"
+!define MUI_FINISHPAGE_RUN_PARAMETERS '-app "$INSTDIR\browser\application.ini"'
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -37,21 +40,21 @@ Section "Install"
   File /r "${SRC}\*.*"
   File "/oname=aqua.ico" "${ICON}"
   WriteUninstaller "$INSTDIR\Uninstall Aqua Browser.exe"
-  CreateShortCut "$SMPROGRAMS\${APP}.lnk" "$INSTDIR\${EXE}" "" "$INSTDIR\aqua.ico" 0
-  CreateShortCut "$SMPROGRAMS\${APP} (private window).lnk" "$INSTDIR\${EXE}" "-private-window" "$INSTDIR\aqua.ico" 0
-  CreateShortCut "$DESKTOP\${APP}.lnk" "$INSTDIR\${EXE}" "" "$INSTDIR\aqua.ico" 0
+  CreateShortCut "$SMPROGRAMS\${APP}.lnk" "$INSTDIR\${EXE}" '${APPARG}' "$INSTDIR\aqua.ico" 0
+  CreateShortCut "$SMPROGRAMS\${APP} (private window).lnk" "$INSTDIR\${EXE}" '${APPARG} -private-window' "$INSTDIR\aqua.ico" 0
+  CreateShortCut "$DESKTOP\${APP}.lnk" "$INSTDIR\${EXE}" '${APPARG}' "$INSTDIR\aqua.ico" 0
   WriteRegStr HKCU "Software\${KEY}" "InstallDir" "$INSTDIR"
   ; ---- what Windows needs to offer Aqua Browser as a default browser ----
   WriteRegStr HKCU "Software\Classes\AquaBrowserURL" "" "Aqua Browser URL"
   WriteRegStr HKCU "Software\Classes\AquaBrowserURL" "URL Protocol" ""
   WriteRegStr HKCU "Software\Classes\AquaBrowserURL\DefaultIcon" "" "$INSTDIR\aqua.ico,0"
-  WriteRegStr HKCU "Software\Classes\AquaBrowserURL\shell\open\command" "" '"$INSTDIR\${EXE}" -osint -url "%1"'
+  WriteRegStr HKCU "Software\Classes\AquaBrowserURL\shell\open\command" "" '"$INSTDIR\${EXE}" ${APPARG} -url "%1"'
   WriteRegStr HKCU "Software\Classes\AquaBrowserHTML" "" "Aqua Browser web page"
   WriteRegStr HKCU "Software\Classes\AquaBrowserHTML\DefaultIcon" "" "$INSTDIR\aqua.ico,0"
-  WriteRegStr HKCU "Software\Classes\AquaBrowserHTML\shell\open\command" "" '"$INSTDIR\${EXE}" -osint -url "%1"'
+  WriteRegStr HKCU "Software\Classes\AquaBrowserHTML\shell\open\command" "" '"$INSTDIR\${EXE}" ${APPARG} -url "%1"'
   WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}" "" "${APP}"
   WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}\DefaultIcon" "" "$INSTDIR\aqua.ico,0"
-  WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}\shell\open\command" "" '"$INSTDIR\${EXE}"'
+  WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}\shell\open\command" "" '"$INSTDIR\${EXE}" ${APPARG}'
   WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}\Capabilities" "ApplicationName" "${APP}"
   WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}\Capabilities" "ApplicationDescription" "A glass web browser in the style of Aqua MD"
   WriteRegStr HKCU "Software\Clients\StartMenuInternet\${KEY}\Capabilities" "ApplicationIcon" "$INSTDIR\aqua.ico,0"

@@ -46,6 +46,12 @@ jobs:
         run: bash build/ci-step.sh apply python3 build/apply.py linux work/firefox
       - name: Package .deb
         run: bash build/ci-step.sh deb bash build/make-deb.sh work/firefox
+      - name: Install the .deb and check Aqua keeps its own profile folder
+        run: |
+          sudo apt-get install -y -qq ./dist/AquaBrowser-Linux-*.deb > /dev/null
+          H="$(mktemp -d)"
+          HOME="$H" bash build/ci-step.sh identity bash test/identity-check.sh /usr/bin/aqua-browser "$H/.aquabrowser/profiles.ini" shots
+          test ! -e "$H/.mozilla/firefox/profiles.ini"
       - name: Screenshots
         run: bash build/ci-step.sh screenshots bash test/screenshots.sh "$PWD/work/firefox" shots
       - name: Save results
@@ -68,6 +74,10 @@ jobs:
         run: curl -fsSL -o engine.dmg "https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=osx&lang=en-US"
       - name: Build Aqua Browser.app
         run: bash build/ci-step.sh mac bash build/make-mac.sh engine.dmg
+      - name: Check Aqua keeps its own profile folder on Mac
+        run: |
+          T="$(mktemp -d)"; unzip -q dist/AquaBrowser-Mac-*.zip -d "$T"
+          bash build/ci-step.sh identity bash test/identity-check.sh "$T/Aqua Browser.app/Contents/MacOS/aqua-browser" "$HOME/Library/Application Support/AquaBrowser/profiles.ini" shots
       - name: Save results
         if: always()
         env: { TOKEN: "${{ github.token }}" }

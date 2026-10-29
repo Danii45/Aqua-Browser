@@ -22,7 +22,7 @@ PREFS
   echo '{"chrome://browser/content/browser.xhtml":{"main-window":{"screenX":"0","screenY":"0","width":"1440","height":"900","sizemode":"normal"}}}' > "$P/xulstore.json"
   echo "== $name" | tee -a "$OUT/console.log"
   xvfb-run -a -s "-screen 0 1440x900x24" bash -c "
-    '$APP/firefox' --no-remote -profile '$P' $* >>'$OUT/console.log' 2>&1 &
+    XUL_APP_FILE='$APP/browser/application.ini' '$APP/firefox' --no-remote -profile '$P' $* >>'$OUT/console.log' 2>&1 &
     PID=\$!
     sleep 28
     import -window root '$OUT/$name.png'

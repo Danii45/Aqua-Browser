@@ -8,7 +8,18 @@ VER="$(cat "$ROOT/VERSION")"
 PKG="$(mktemp -d)/pkg"
 mkdir -p "$PKG/opt/aqua-browser" "$PKG/usr/bin" "$PKG/usr/share/applications" "$PKG/DEBIAN" "$PKG/usr/lib/aqua-browser"
 cp -a "$SRC/." "$PKG/opt/aqua-browser/"
-ln -s /opt/aqua-browser/firefox "$PKG/usr/bin/aqua-browser"
+cat > "$PKG/usr/bin/aqua-browser" <<'LAUNCH'
+#!/bin/sh
+# Starts Aqua Browser with its own identity file, so it keeps its own profiles in ~/.aquabrowser
+# instead of sharing Firefox's folder.
+export XUL_APP_FILE=/opt/aqua-browser/browser/application.ini
+# Aqua Browser 2.0.0 kept its profiles in Firefox's folder: copy them over once (nothing is deleted).
+if [ ! -e "$HOME/.aquabrowser" ] && [ -f "$HOME/.mozilla/firefox/profiles.ini" ] && grep -qx 'Name=Home' "$HOME/.mozilla/firefox/profiles.ini"; then
+  cp -a "$HOME/.mozilla/firefox" "$HOME/.aquabrowser" 2>/dev/null || true
+fi
+exec /opt/aqua-browser/firefox "$@"
+LAUNCH
+chmod 755 "$PKG/usr/bin/aqua-browser"
 for s in 16 32 48 64 128 256 512; do
   mkdir -p "$PKG/usr/share/icons/hicolor/${s}x${s}/apps"
   python3 -c "from PIL import Image; Image.open('$ROOT/branding/icon-1024.png').convert('RGBA').resize(($s,$s), Image.LANCZOS).save('$PKG/usr/share/icons/hicolor/${s}x${s}/apps/aqua-browser.png')"

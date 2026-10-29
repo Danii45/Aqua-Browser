@@ -24,7 +24,8 @@ user_pref("browser.sessionstore.resume_from_crash", false);
 user_pref("datareporting.policy.firstRunURL", "");
 $Prefs
 "@ | Set-Content -Encoding UTF8 (Join-Path $p 'user.js')
-  $argList = @('-no-remote', '-profile', $p) + $Urls
+  $ini = Join-Path (Split-Path $Exe) 'browser\application.ini'
+  $argList = @('-app', "`"$ini`"", '-no-remote', '-profile', $p) + $Urls
   $proc = Start-Process -FilePath $Exe -ArgumentList $argList -PassThru
   Start-Sleep -Seconds 30
   Shot $Name
