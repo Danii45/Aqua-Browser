@@ -62,6 +62,13 @@
     if (ub) console.log("Aqua debug urlbar tree: " + [ub, ...ub.querySelectorAll("*")].slice(0, 45).map(desc).join(" | "));
   }
   if (pref("aqua.debug", false)) setTimeout(debugDump, 7000);
+  // With aqua.debug.chip on (tests), presses the profile chip and logs what happened.
+  if (pref("aqua.debug.chip", false)) setTimeout(() => {
+    const chip = document.getElementById("aqua-profile-button");
+    console.log("Aqua debug chip: found=" + !!chip + " label=" + (chip && chip.getAttribute("label")));
+    try { chip.doCommand(); } catch (e) { console.error("Aqua debug chip: command failed", e); }
+    setTimeout(() => { const p = document.getElementById("aqua-profile-popup"); console.log("Aqua debug chip: popup=" + (p ? p.state : "none") + " items=" + (p ? p.children.length : 0)); }, 1500);
+  }, 9000);
 
   const P = Services.prefs;
   const obs = { observe() { applyLook(); applyColour(); } };
@@ -79,6 +86,14 @@
     return m;
   }
   function profileMenu(anchor) {
+    try { openProfileMenu(anchor); }
+    catch (e) {
+      // If the menu can't open, the Profiles settings still let you switch.
+      console.error("Aqua: profile menu failed", e);
+      AquaBoot.openSettings(window, "profiles");
+    }
+  }
+  function openProfileMenu(anchor) {
     let popup = document.getElementById("aqua-profile-popup");
     if (!popup) {
       popup = document.createXULElement("menupopup");
@@ -94,7 +109,8 @@
     popup.append(item("New private window", () => window.OpenBrowserWindow({ private: true })));
     popup.append(item("Add a profile…", () => AquaBoot.openSettings(window, "profiles")));
     popup.append(item("Aqua settings", () => AquaBoot.openSettings(window)));
-    popup.openPopup(anchor, "after_end", 0, 4, false, false);
+    if (!anchor || !anchor.isConnected) anchor = document.getElementById("aqua-profile-button");
+    popup.openPopup(anchor, { position: "after_end", y: 4 });
   }
 
   window.AquaUI = { profileMenu, applyLook, applyColour };

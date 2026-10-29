@@ -210,23 +210,37 @@ export const Profiles = {
     for (const p of ps.profiles) if (p.name === oldName) p.name = newName;
     await flush(ps);
   },
-  // First run: call the starting profile "Home" and add an orange "Work" profile next to it.
-  async firstRun() {
-    if (!pref("aqua.firstRun", true)) return;
-    setPref("aqua.firstRun", false);
+  // Every start: make sure the profile in use is "Home" (or a profile the person made), and that there's a "Work".
+  // Firefox gives each folder the app runs from its own default profile, so opening a copy from somewhere new
+  // (Downloads instead of Applications, say) lands in a new, empty "default-…" profile. If a Home profile
+  // already exists, Aqua reopens in it instead of starting over.
+  async ensureProfiles() {
     try {
       const ps = profileService();
       const cur = ps.currentProfile;
       if (!cur) return; // started with -profile <dir> (tests)
-      const names = [...ps.profiles].map(p => p.name);
-      if (!names.includes("Home") && /^default/i.test(cur.name)) cur.name = "Home";
-      if (!names.includes("Work")) {
+      const all = [...ps.profiles];
+      const home = all.find(p => p.name === "Home");
+      const isDefaultName = /^default(-[a-z]+)?$/i.test(cur.name);
+      const fresh = pref("aqua.firstRun", true);
+      if (home && isDefaultName && fresh && home.rootDir.path !== cur.rootDir.path) {
+        console.log("Aqua: this copy started in a new, empty profile; reopening in Home");
+        try { ps.defaultProfile = home; } catch (e) {}
+        await flush(ps);
+        this.open("Home");
+        Services.startup.quit(Ci.nsIAppStartup.eForceQuit);
+        return;
+      }
+      setPref("aqua.firstRun", false);
+      if (!home && isDefaultName) cur.name = "Home";
+      if (!all.some(p => p.name === "Work")) {
         const w = ps.createProfile(null, "Work");
-        await IOUtils.writeUTF8(PathUtils.join(w.rootDir.path, "user.js"), 'user_pref("aqua.color", "orange");\nuser_pref("aqua.firstRun", false);\n');
+        await IOUtils.writeUTF8(PathUtils.join(w.rootDir.path, "user.js"), 'user_pref("aqua.color", "orange");\nuser_pref("aqua.firstRun", false);\nuser_pref("aqua.welcomed", true);\n');
       }
       await flush(ps);
     } catch (e) { console.error("Aqua: could not set up profiles", e); }
-  }
+  },
+  firstRun() { return this.ensureProfiles(); }
 };
 
 /* ---------- the home page's data ---------- */

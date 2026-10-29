@@ -36,6 +36,7 @@ run 03-side-tabs-orange 'user_pref("aqua.welcomed", true); user_pref("aqua.color
 run 04-page-blue 'user_pref("aqua.welcomed", true);' "https://www.wikipedia.org"
 run 05-settings 'user_pref("aqua.welcomed", true); user_pref("browser.startup.page", 1); user_pref("browser.startup.homepage", "chrome://aqua/content/settings.html");'
 run 06-passwords 'user_pref("aqua.welcomed", true); user_pref("aqua.color", "teal");' "about:logins"
+run 08-profile-chip 'user_pref("aqua.welcomed", true); user_pref("aqua.debug.chip", true);'
 run 07-auto-purple 'user_pref("aqua.welcomed", true); user_pref("aqua.color", "purple"); user_pref("aqua.addressFont", "dot");' "https://example.com"
 grep -iE "aqua|error|exception" "$OUT/console.log" | grep -viE "glxtest|libEGL|mesa|dbus|fontconfig|gfx|CanvasRenderer|webgl|GStreamer|ATK|libva|Crash Annotation|telemetry" | head -80 > "$OUT/aqua-errors.txt" || true
 echo "done: $(ls "$OUT"/*.png | wc -l) screenshots"
