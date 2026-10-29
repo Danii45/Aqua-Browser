@@ -1,0 +1,20 @@
+Aqua's own profile folder is in use:
+[InstallE4A211C9CB2A61A2]
+Default=fpjj3jjk.default-esr
+Locked=1
+
+[Profile1]
+Name=default
+IsRelative=1
+Path=lu0j3ysw.default
+Default=1
+
+[Profile0]
+Name=default-esr
+IsRelative=1
+Path=fpjj3jjk.default-esr
+
+[General]
+StartWithLastProfile=1
+Version=2
+
