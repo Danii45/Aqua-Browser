@@ -1,0 +1,61 @@
+  rebranded 48 files in omni.ja
+  replaced 4 mascot images in core/omni.ja
+  art core/omni.ja -> chrome/toolkit/content/global/megalist/icons/cpm-fox-illustration.svg
+  art core/omni.ja -> chrome/toolkit/skin/classic/global/illustrations/kit-concerned.svg
+  art core/omni.ja -> chrome/toolkit/skin/classic/global/illustrations/kit-happy.svg
+  art core/omni.ja -> chrome/toolkit/skin/classic/global/illustrations/kit-in-circle.svg
+  module PlacesUtils: core/omni.ja -> modules/PlacesUtils.sys.mjs
+  module PrivateBrowsingUtils: core/omni.ja -> modules/PrivateBrowsingUtils.sys.mjs
+  module CustomizableUI: core/omni.ja -> moz-src/browser/components/customizableui/CustomizableUI.sys.mjs
+  module ShellService: core/omni.ja -> moz-src/browser/components/shell/ShellService.sys.mjs
+  module SearchService: core/omni.ja -> moz-src/toolkit/components/search/SearchService.sys.mjs
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox-mascot-prop-paintbucket-rgb.svg
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox-motion-head-pop-up-no-bg.svg
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox.svg
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/highlights/firefox-mascot-prop-paintbucket-rgb.svg
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/highlights/firefox-wallpaper-desktop-hills-light-rgb.svg
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/kit-in-circle.svg
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/kit.png
+  art browser/omni.ja -> chrome/browser/builtin-addons/newtab/data/data/content/assets/puzzle-fox.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/br-amo-fox-paint.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/br-fxa-fox-mirror.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/br-gratitude-fox-rock.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/br-import-fox-house.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/br-set-default-fox-heart.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/fox-doodle-backup-restore.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/fox-doodle-backup.svg
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/fox-doodle-tail.png
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/fox-doodle-waving-static.png
+  art browser/omni.ja -> chrome/browser/content/activity-stream/data/content/assets/mr-kit-smart-window.svg
+  art browser/omni.ja -> chrome/browser/content/branding/firefox-wordmark.svg
+  art browser/omni.ja -> chrome/browser/content/browser/aboutlogins/icons/intro-illustration.svg
+  art browser/omni.ja -> chrome/browser/content/browser/aiwindow/assets/kit.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/fox-with-box-on-cloud.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/fox-with-checkmark.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/fox-with-devices.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/fox-with-locked-box.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/fox-with-mobile.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/fox-with-profiles.svg
+  art browser/omni.ja -> chrome/browser/content/browser/asrouter/assets/smiling-fox-icon.svg
+  art browser/omni.ja -> chrome/browser/content/browser/controlcenter/assets/fox-concern.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/addons/extensions-panel-empty-illustration.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/firefox-view.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/fxa/avatar-fox-circle.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/fxa/avatar-fox.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/fxa/sync-illustration-issue.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/fxa/sync-illustration.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/preferences/fox-ai.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/privatebrowsing/fox-tail.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/sidebar/firefox.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/sidebar/foxy.svg
+  art browser/omni.ja -> chrome/browser/skin/classic/browser/window-firefox.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/aboutdebugging-firefox-aurora.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/aboutdebugging-firefox-beta.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/aboutdebugging-firefox-logo.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/aboutdebugging-firefox-nightly.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/aboutdebugging-firefox-release.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/browsers/firefox.svg
+  art browser/omni.ja -> chrome/devtools/skin/images/fox-smiling.svg
+  module AboutNewTab: browser/omni.ja -> modules/AboutNewTab.sys.mjs
+  module MigrationUtils: browser/omni.ja -> modules/MigrationUtils.sys.mjs
+Aqua Browser 2.0.3 on engine 153.6.0 (Windows) ready in work\core

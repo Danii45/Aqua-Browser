@@ -1,0 +1,66 @@
+signtool: /c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/signtool.exe
+
+Successfully committed changes to the file: D:\a\Aqua-Browser\Aqua-Browser\work\core\firefox.exe
+
+Number of errors: 0
+branded work/core/firefox.exe
+
+Successfully committed changes to the file: D:\a\Aqua-Browser\Aqua-Browser\work\core\private_browsing.exe
+
+Number of errors: 0
+branded work/core/private_browsing.exe
+total 106596
+drwxr-xr-x 1 runneradmin 197121         0 Oct 29 17:44 .
+drwxr-xr-x 1 runneradmin 197121         0 Oct 29 17:44 ..
+-rwxr-xr-x 1 runneradmin 197121 109147111 Oct 29 17:46 AquaBrowser-Windows-2.0.3-Setup.exe
+AccessibleMarshal.dll
+CoreMessagingXP.dll
+InstallationDirLayout.dll
+Microsoft.InputStateManager.dll
+Microsoft.Internal.FrameworkUdk.dll
+Microsoft.UI.Composition.OSSupport.dll
+Microsoft.UI.Input.dll
+Microsoft.UI.Windowing.Core.dll
+Microsoft.UI.Windowing.dll
+Microsoft.WindowsAppRuntime.Insights.Resource.dll
+Microsoft.WindowsAppRuntime.dll
+Uninstall Aqua Browser.exe
+application.ini
+aqua
+aqua.cfg
+aqua.ico
+browser
+crashhelper.exe
+crashreporter.exe
+defaults
+dependentlibs.list
+desktop-launcher
+distribution
+dxcompiler.dll
+firefox.VisualElementsManifest.xml
+firefox.exe
+firefox.exe.sig
+fonts
+freebl3.dll
+gkcodecs.dll
+gmp-clearkey
+installation_dir_layout
+lgpllibs.dll
+libEGL.dll
+libGLESv2.dll
+marshal.dll
+mozavcodec.dll
+mozavutil.dll
+mozglue.dll
+mozinference.dll
+mozwer.dll
+msvcp140.dll
+msvcp140_atomic_wait.dll
+nmhproxy.exe
+notificationserver.dll
+nss3.dll
+omni.ja
+onnxruntime.dll
+pingsender.exe
+platform.ini
+installed OK
