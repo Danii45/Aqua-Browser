@@ -346,7 +346,12 @@ function makeWidgets() {
       tooltiptext: "Profiles",
       defaultArea: lazy.CustomizableUI.AREA_NAVBAR,
       onCreated(node) { node.setAttribute("label", Profiles.current()); },
-      onCommand(e) { const w = e.target.ownerGlobal; if (w.AquaUI) w.AquaUI.profileMenu(e.target); }
+      // Firefox has changed what it passes here over the years (an event, or the button itself), so accept either.
+      onCommand(e) {
+        const node = (e && (e.target || e.currentTarget)) || e;
+        const w = (node && node.ownerGlobal) || Services.wm.getMostRecentWindow("navigator:browser");
+        if (w && w.AquaUI) w.AquaUI.profileMenu(node && node.ownerGlobal === w ? node : w.document.getElementById("aqua-profile-button"));
+      }
     });
   } catch (e) { console.error("Aqua: profile button", e); }
   // Once per profile: take out Firefox's flexible spaces around the address bar, so the LCD gets the room.
