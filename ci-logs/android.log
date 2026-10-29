@@ -1,0 +1,76 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:generateReleaseResources
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:packageReleaseResources
+> Task :app:processReleaseNavigationResources
+> Task :app:mergeReleaseNativeLibs
+> Task :app:javaPreCompileRelease
+> Task :app:parseReleaseLocalResources
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:generateReleaseRFile
+> Task :app:compileReleaseNavigationResources
+
+> Task :app:stripReleaseDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libclearkey.so, libcrashhelper.so, libcrashtools.so, libfreebl3.so, libgkcodecs.so, liblgpllibs.so, libmozavcodec.so, libmozavutil.so, libmozglue.so, libnss3.so, libplugin-container.so, libsoftokn3.so, libxul.so. Run with --info option to learn more.
+
+> Task :app:checkReleaseAarMetadata
+> Task :app:extractReleaseNativeSymbolTables
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+> Task :app:processReleaseMainManifest
+> Task :app:mergeReleaseResources
+> Task :app:processReleaseManifest
+> Task :app:desugarReleaseFileDependencies
+> Task :app:mergeReleaseStartupProfile
+> Task :app:processReleaseManifestForPackage
+> Task :app:mergeReleaseArtProfile
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :app:processReleaseResources
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:extractProguardFiles
+> Task :app:compressReleaseAssets
+> Task :app:collectReleaseDependencies
+> Task :app:sdkReleaseDependencyData
+> Task :app:optimizeReleaseResources
+> Task :app:validateSigningRelease
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:mergeExtDexRelease
+> Task :app:compileReleaseKotlin
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/Browser.kt:267:110 Expression is unused.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/Browser.kt:273:112 Expression is unused.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/Prompts.kt:216:35 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/ui/BrowserScreen.kt:250:110 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Tab'.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/ui/BrowserScreen.kt:256:24 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Tab'.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/ui/BrowserScreen.kt:317:110 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Tab'.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/ui/BrowserScreen.kt:318:116 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Tab'.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/ui/BrowserScreen.kt:327:92 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Tab'.
+w: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/app/src/main/java/app/aquabrowser/android/ui/BrowserScreen.kt:328:28 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Tab'.
+
+> Task :app:compileReleaseJavaWithJavac NO-SOURCE
+> Task :app:dexBuilderRelease
+> Task :app:mergeReleaseGlobalSynthetics
+> Task :app:generateReleaseLintVitalReportModel
+> Task :app:processReleaseJavaRes
+> Task :app:mergeReleaseJavaResource
+> Task :app:mergeDexRelease
+> Task :app:compileReleaseArtProfile
+> Task :app:lintVitalAnalyzeRelease
+> Task :app:lintVitalReportRelease
+> Task :app:lintVitalRelease
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793295827955.json
+
+[Incubating] Problems report is available at: file:///home/runner/work/Aqua-Browser/Aqua-Browser/android/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 20s
+48 actionable tasks: 48 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.3.1/userguide/configuration_cache_enabling.html
