@@ -281,6 +281,10 @@ def mac(app: Path):
     launcher = app / "Contents" / "MacOS" / "aqua-browser"
     launcher.write_text(MAC_LAUNCHER)
     launcher.chmod(0o755)
+    # Newer macOS takes the app icon from the asset catalog (Assets.car) named by CFBundleIconName, which
+    # holds Firefox's logo, before the .icns file. Without that key it uses the .icns, which becomes Aqua's.
+    print(f"  icon keys before: CFBundleIconFile={pl.get('CFBundleIconFile')!r} CFBundleIconName={pl.get('CFBundleIconName')!r}")
+    pl.pop("CFBundleIconName", None)
     pl.update({
         "CFBundleExecutable": "aqua-browser",
         "CFBundleName": "Aqua Browser",
@@ -302,6 +306,7 @@ def mac(app: Path):
         icon_name += ".icns"
     if shutil.which("iconutil"):
         subprocess.run(["iconutil", "-c", "icns", str(iconset), "-o", str(res / icon_name)], check=True)
+        print(f"  wrote Aqua's icon to Resources/{icon_name}; Resources has: " + ", ".join(sorted(f.name for f in res.iterdir() if f.suffix in (".icns", ".car", ".icon"))))
     else:
         print("  (no iconutil here: keeping the engine's icon)")
     print(f"Aqua Browser {VERSION} on engine {ver} (Mac) ready in {app}")

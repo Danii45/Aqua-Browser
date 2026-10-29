@@ -27,6 +27,9 @@ rm -rf "$DEST"
 cp -R "$APP" "$DEST"
 xattr -cr "$DEST"
 codesign --force --deep --sign - "$DEST"
+# Make macOS pick up Aqua's icon now (it caches app icons).
+touch "$DEST"
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$DEST" 2>/dev/null || true
 echo "Done. Opening Aqua Browser."
 open "$DEST"
 INST
