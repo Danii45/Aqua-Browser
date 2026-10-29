@@ -1,0 +1,20 @@
+Aqua's own profile folder is in use:
+[Profile1]
+Name=default
+IsRelative=1
+Path=Profiles/t97zofei.default
+Default=1
+
+[Profile0]
+Name=default-esr
+IsRelative=1
+Path=Profiles/gejvzgtv.default-esr
+
+[General]
+StartWithLastProfile=1
+Version=2
+
+[InstallF98276C8FB731DDD]
+Default=Profiles/gejvzgtv.default-esr
+Locked=1
+
