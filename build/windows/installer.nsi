@@ -21,7 +21,7 @@ RequestExecutionLevel user
 !define MUI_WELCOMEPAGE_TEXT "A glass web browser in the style of Aqua MD, built on Mozilla's open-source engine.$\r$\n$\r$\nIf Aqua Browser is open, close it before you continue."
 !define MUI_FINISHPAGE_RUN "$INSTDIR\${EXE}"
 !define MUI_FINISHPAGE_RUN_TEXT "Open Aqua Browser now"
-!define MUI_FINISHPAGE_RUN_PARAMETERS '-app "$INSTDIR\browser\application.ini"'
+!define MUI_FINISHPAGE_RUN_FUNCTION OpenAqua
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -34,6 +34,10 @@ VIAddVersionKey "FileDescription" "${APP} setup"
 VIAddVersionKey "FileVersion" "${VERSION}"
 VIAddVersionKey "ProductVersion" "${VERSION}"
 VIAddVersionKey "LegalCopyright" "Aqua Browser. Engine by Mozilla (MPL 2.0)."
+
+Function OpenAqua
+  Exec '"$INSTDIR\${EXE}" ${APPARG}'
+FunctionEnd
 
 Section "Install"
   SetOutPath "$INSTDIR"
