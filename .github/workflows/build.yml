@@ -65,7 +65,9 @@ jobs:
         with: { name: screenshots-linux, path: shots/ }
 
   mac:
-    runs-on: macos-14
+    # Intel Mac runner: GitHub often has no free Apple Silicon Macs. The build is the same either way
+    # (Firefox's Mac download is universal), and the profile check runs the Intel half.
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
       - name: Tools
